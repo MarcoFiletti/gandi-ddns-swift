@@ -45,7 +45,7 @@ class IPFetcher {
         #if !os(macOS)
             let command = "ip addr show dev enp1s0 | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"
         #else
-            let command = "ifconfig en0 | grep inet6 | grep \"autoconf secured\" | awk -F \" \" '{print $2}'"
+            let command = "ifconfig en0 | grep inet6 | grep \"autoconf secured\" | awk -F \" \" '{print $2}' | head -1"
         #endif
         
         guard let shellRet = Shell.run(command) else {
