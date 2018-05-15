@@ -29,7 +29,7 @@ if CommandLine.arguments.count == 2 {
     #endif
     
     let shellRet = Shell.run(command) ?? "nope"
-    print("Shell returns: '\(shellRet)'")
+    print("Shell returns: '\(shellRet.trimmingCharacters(in: .whitespacesAndNewlines))'")
     
 } else {
     print("No args, saving data: \(Test.sav())")
