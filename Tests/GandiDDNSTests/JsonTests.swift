@@ -10,4 +10,8 @@ class JsonTests: XCTestCase {
         XCTAssertEqual(2, 2);
     }
 
+	static var allTests = [
+        ("test1", testOne),
+        ("test2", testTwo),
+    ]
 }
