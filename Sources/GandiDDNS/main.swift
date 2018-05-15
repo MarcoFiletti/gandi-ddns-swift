@@ -1,1 +1,2 @@
-print("Hello, world! \(Test.quaz())")
+
+print("Saving data: \(Test.sav())")
