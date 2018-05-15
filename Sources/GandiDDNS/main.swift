@@ -4,19 +4,22 @@ if CommandLine.arguments.count == 2 {
     let fname = CommandLine.arguments[1]
     
     let url: URL = URL(fileURLWithPath: fname)
-    
+
     guard let data = try? Data(contentsOf: url) else {
-        throw NSError(domain: "Could read data from '\(fname)'", code: 1)
+        print("Could read data from '\(fname)'")
+        exit(2)
     }
     let dec = JSONDecoder()
     guard let ajson = try? dec.decode(Ajson.self, from: data) else {
-        throw NSError(domain: "Failed to convert data in '\(fname)'", code: 2)
+        print("Failed to convert data in '\(fname)'")
+        exit(2)
     }
     print("A is \(ajson.a)")
     
     let ses = URLSession.shared
     guard let ipUrl = URL(string: "https://api.ipify.org") else {
-        throw NSError(domain: "Failed to get ip", code: 3)
+        print("Failed to get ip url")
+        exit(2)
     }
     
     let group = DispatchGroup()
@@ -35,7 +38,8 @@ if CommandLine.arguments.count == 2 {
     }.resume()
     
     if group.wait(timeout: DispatchTime.now() + 3.0) == .timedOut {
-        throw NSError(domain: "Failed to get ip: timeout", code: 4)
+        print("Failed to get ip: timeout")
+        exit(2)
     }
 } else {
     print("No args, saving data: \(Test.sav())")
