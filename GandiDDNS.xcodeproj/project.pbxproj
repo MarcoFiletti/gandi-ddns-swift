@@ -21,7 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		A9E70AAA20AAFF28000CC35E /* ajson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E70AA920AAFF28000CC35E /* ajson.swift */; };
+		A9E70AAA20AAFF28000CC35E /* Ajson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E70AA920AAFF28000CC35E /* Ajson.swift */; };
 		OBJ_23 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* main.swift */; };
 		OBJ_24 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* test.swift */; };
 		OBJ_31 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
@@ -47,7 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A9E70AA920AAFF28000CC35E /* ajson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ajson.swift; sourceTree = "<group>"; };
+		A9E70AA920AAFF28000CC35E /* Ajson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ajson.swift; sourceTree = "<group>"; };
 		"GandiDDNS::GandiDDNS::Product" /* GandiDDNS */ = {isa = PBXFileReference; lastKnownFileType = text; path = GandiDDNS; sourceTree = BUILT_PRODUCTS_DIR; };
 		"GandiDDNS::GandiDDNSTests::Product" /* GandiDDNSTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = GandiDDNSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -110,7 +110,6 @@
 				OBJ_11 /* Tests */,
 				OBJ_15 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -126,7 +125,7 @@
 			children = (
 				OBJ_9 /* main.swift */,
 				OBJ_10 /* test.swift */,
-				A9E70AA920AAFF28000CC35E /* ajson.swift */,
+				A9E70AA920AAFF28000CC35E /* Ajson.swift */,
 			);
 			name = GandiDDNS;
 			path = Sources/GandiDDNS;
@@ -197,7 +196,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_15 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -215,7 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				A9E70AAA20AAFF28000CC35E /* ajson.swift in Sources */,
+				A9E70AAA20AAFF28000CC35E /* Ajson.swift in Sources */,
 				OBJ_23 /* main.swift in Sources */,
 				OBJ_24 /* test.swift in Sources */,
 			);
