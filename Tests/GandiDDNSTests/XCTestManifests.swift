@@ -1,9 +1,16 @@
 import XCTest
 
+extension JsonTests {
+    static let __allTests = [
+        ("testOne", testOne),
+        ("testTwo", testTwo),
+    ]
+}
+
 #if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
+public func __allTests() -> [XCTestCaseEntry] {
     return [
-        testCase(JsonTests.allTests),
+        testCase(JsonTests.__allTests),
     ]
 }
 #endif

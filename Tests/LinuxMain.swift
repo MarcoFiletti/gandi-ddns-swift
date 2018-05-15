@@ -1,6 +1,8 @@
-import GandiDDNSTests
 import XCTest
 
+import GandiDDNSTests
+
 var tests = [XCTestCaseEntry]()
-tests += GandiDDNSTests.allTests()
+tests += GandiDDNSTests.__allTests()
+
 XCTMain(tests)
