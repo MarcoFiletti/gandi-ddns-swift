@@ -15,5 +15,8 @@ let package = Package(
         .target(
             name: "gandi-ddns-swift",
             dependencies: []),
+        .testTarget(
+            name: "gandi-ddns-swift-test",
+            dependencies: ["gandi-ddns-swift"]),
     ]
 )

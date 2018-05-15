@@ -1,290 +1,505 @@
 // !$*UTF8*$!
 {
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		A926F56A20AAF414003E78AE /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A926F56920AAF414003E78AE /* test.swift */; };
-		OBJ_18 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* main.swift */; };
-		OBJ_25 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXFileReference section */
-		A926F56920AAF414003E78AE /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
-		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		"gandi-ddns-swift::gandi-ddns-swift::Product" /* gandi-ddns-swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "gandi-ddns-swift"; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		OBJ_19 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		OBJ_10 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_11 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				"gandi-ddns-swift::gandi-ddns-swift::Product" /* gandi-ddns-swift */,
-			);
-			name = Products;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		OBJ_5 /*  */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_10 /* Tests */,
-				OBJ_11 /* Products */,
-			);
-			name = "";
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* gandi-ddns-swift */,
-			);
-			name = Sources;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_8 /* gandi-ddns-swift */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_9 /* main.swift */,
-				A926F56920AAF414003E78AE /* test.swift */,
-			);
-			name = "gandi-ddns-swift";
-			path = "Sources/gandi-ddns-swift";
-			sourceTree = SOURCE_ROOT;
-		};
-/* End PBXGroup section */
-
-/* Begin PBXNativeTarget section */
-		"gandi-ddns-swift::SwiftPMPackageDescription" /* gandi-ddns-swiftPackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_21 /* Build configuration list for PBXNativeTarget "gandi-ddns-swiftPackageDescription" */;
-			buildPhases = (
-				OBJ_24 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "gandi-ddns-swiftPackageDescription";
-			productName = "gandi-ddns-swiftPackageDescription";
-			productType = "com.apple.product-type.framework";
-		};
-		"gandi-ddns-swift::gandi-ddns-swift" /* gandi-ddns-swift */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_14 /* Build configuration list for PBXNativeTarget "gandi-ddns-swift" */;
-			buildPhases = (
-				OBJ_17 /* Sources */,
-				OBJ_19 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "gandi-ddns-swift";
-			productName = gandi_ddns_swift;
-			productReference = "gandi-ddns-swift::gandi-ddns-swift::Product" /* gandi-ddns-swift */;
-			productType = "com.apple.product-type.tool";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		OBJ_1 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 9999;
-			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "gandi-ddns-swift" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_11 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				"gandi-ddns-swift::gandi-ddns-swift" /* gandi-ddns-swift */,
-				"gandi-ddns-swift::SwiftPMPackageDescription" /* gandi-ddns-swiftPackageDescription */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXSourcesBuildPhase section */
-		OBJ_17 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_18 /* main.swift in Sources */,
-				A926F56A20AAF414003E78AE /* test.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_24 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_25 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin XCBuildConfiguration section */
-		OBJ_15 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = "gandi-ddns-swift";
-			};
-			name = Debug;
-		};
-		OBJ_16 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				SWIFT_VERSION = 4.0;
-				TARGET_NAME = "gandi-ddns-swift";
-			};
-			name = Release;
-		};
-		OBJ_22 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Debug;
-		};
-		OBJ_23 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 4 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
-				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		OBJ_3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USE_HEADERMAP = NO;
-			};
-			name = Debug;
-		};
-		OBJ_4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_OPTIMIZATION_LEVEL = s;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				USE_HEADERMAP = NO;
-			};
-			name = Release;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		OBJ_14 /* Build configuration list for PBXNativeTarget "gandi-ddns-swift" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_15 /* Debug */,
-				OBJ_16 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_2 /* Build configuration list for PBXProject "gandi-ddns-swift" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_3 /* Debug */,
-				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_21 /* Build configuration list for PBXNativeTarget "gandi-ddns-swiftPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_22 /* Debug */,
-				OBJ_23 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = OBJ_1 /* Project object */;
+   archiveVersion = "1";
+   objectVersion = "46";
+   objects = {
+      "OBJ_1" = {
+         isa = "PBXProject";
+         attributes = {
+            LastUpgradeCheck = "9999";
+         };
+         buildConfigurationList = "OBJ_2";
+         compatibilityVersion = "Xcode 3.2";
+         developmentRegion = "English";
+         hasScannedForEncodings = "0";
+         knownRegions = (
+            "en",
+         );
+         mainGroup = "OBJ_5";
+         productRefGroup = "OBJ_14";
+         projectDirPath = ".";
+         targets = (
+            "gandi-ddns-swift::gandi-ddns-swift",
+            "gandi-ddns-swift::gandi-ddns-swift-test",
+            "gandi-ddns-swift::SwiftPMPackageDescription",
+            "gandi-ddns-swift::gandi-ddns-swiftPackageTests::ProductTarget",
+         );
+      };
+      "OBJ_10" = {
+         isa = "PBXFileReference";
+         path = "test.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_11" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_12",
+         );
+         name = "Tests";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_12" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_13",
+         );
+         name = "gandi-ddns-swift-test";
+         path = "Tests/gandi-ddns-swift-test";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_13" = {
+         isa = "PBXFileReference";
+         path = "JsonTests.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_14" = {
+         isa = "PBXGroup";
+         children = (
+            "gandi-ddns-swift::gandi-ddns-swift::Product",
+            "gandi-ddns-swift::gandi-ddns-swift-test::Product",
+         );
+         name = "Products";
+         path = "";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "OBJ_18" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_19",
+            "OBJ_20",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_19" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+               "@executable_path",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
+            SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "gandi-ddns-swift";
+         };
+         name = "Debug";
+      };
+      "OBJ_2" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_3",
+            "OBJ_4",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_20" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+               "@executable_path",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            SWIFT_FORCE_DYNAMIC_LINK_STDLIB = "YES";
+            SWIFT_FORCE_STATIC_LINK_STDLIB = "NO";
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "gandi-ddns-swift";
+         };
+         name = "Release";
+      };
+      "OBJ_21" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_22",
+            "OBJ_23",
+         );
+      };
+      "OBJ_22" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_9";
+      };
+      "OBJ_23" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_10";
+      };
+      "OBJ_24" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_26" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_27",
+            "OBJ_28",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_27" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_test_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "gandi-ddns-swift-test";
+         };
+         name = "Debug";
+      };
+      "OBJ_28" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            EMBEDDED_CONTENT_CONTAINS_SWIFT = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks",
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)",
+            );
+            INFOPLIST_FILE = "gandi-ddns-swift.xcodeproj/gandi_ddns_swift_test_Info.plist";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "@loader_path/../Frameworks",
+               "@loader_path/Frameworks",
+            );
+            OTHER_CFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)",
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+            );
+            SWIFT_VERSION = "4.0";
+            TARGET_NAME = "gandi-ddns-swift-test";
+         };
+         name = "Release";
+      };
+      "OBJ_29" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_30",
+         );
+      };
+      "OBJ_3" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "NO";
+            DEBUG_INFORMATION_FORMAT = "dwarf";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            ENABLE_NS_ASSERTIONS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "0";
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            ONLY_ACTIVE_ARCH = "YES";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode",
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator",
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
+            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Debug";
+      };
+      "OBJ_30" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_13";
+      };
+      "OBJ_31" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_32" = {
+         isa = "PBXTargetDependency";
+         target = "gandi-ddns-swift::gandi-ddns-swift";
+      };
+      "OBJ_34" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_35",
+            "OBJ_36",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_35" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_36" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "4",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4",
+               "-target",
+               "x86_64-apple-macosx10.10",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk",
+            );
+            SWIFT_VERSION = "4.0";
+         };
+         name = "Release";
+      };
+      "OBJ_37" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_38",
+         );
+      };
+      "OBJ_38" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
+      };
+      "OBJ_4" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "YES";
+            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            GCC_OPTIMIZATION_LEVEL = "s";
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_SWIFT_FLAGS = (
+               "-DXcode",
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator",
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = "SWIFT_PACKAGE";
+            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Release";
+      };
+      "OBJ_40" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_41",
+            "OBJ_42",
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_41" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Debug";
+      };
+      "OBJ_42" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+         };
+         name = "Release";
+      };
+      "OBJ_43" = {
+         isa = "PBXTargetDependency";
+         target = "gandi-ddns-swift::gandi-ddns-swift-test";
+      };
+      "OBJ_5" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_6",
+            "OBJ_7",
+            "OBJ_11",
+            "OBJ_14",
+         );
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_6" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         path = "Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_7" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_8",
+         );
+         name = "Sources";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_8" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_9",
+            "OBJ_10",
+         );
+         name = "gandi-ddns-swift";
+         path = "Sources/gandi-ddns-swift";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_9" = {
+         isa = "PBXFileReference";
+         path = "main.swift";
+         sourceTree = "<group>";
+      };
+      "gandi-ddns-swift::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_34";
+         buildPhases = (
+            "OBJ_37",
+         );
+         dependencies = (
+         );
+         name = "gandi-ddns-swiftPackageDescription";
+         productName = "gandi-ddns-swiftPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "gandi-ddns-swift::gandi-ddns-swift" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_18";
+         buildPhases = (
+            "OBJ_21",
+            "OBJ_24",
+         );
+         dependencies = (
+         );
+         name = "gandi-ddns-swift";
+         productName = "gandi_ddns_swift";
+         productReference = "gandi-ddns-swift::gandi-ddns-swift::Product";
+         productType = "com.apple.product-type.tool";
+      };
+      "gandi-ddns-swift::gandi-ddns-swift-test" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_26";
+         buildPhases = (
+            "OBJ_29",
+            "OBJ_31",
+         );
+         dependencies = (
+            "OBJ_32",
+         );
+         name = "gandi-ddns-swift-test";
+         productName = "gandi_ddns_swift_test";
+         productReference = "gandi-ddns-swift::gandi-ddns-swift-test::Product";
+         productType = "com.apple.product-type.bundle.unit-test";
+      };
+      "gandi-ddns-swift::gandi-ddns-swift-test::Product" = {
+         isa = "PBXFileReference";
+         path = "gandi_ddns_swift_test.xctest";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "gandi-ddns-swift::gandi-ddns-swift::Product" = {
+         isa = "PBXFileReference";
+         path = "gandi-ddns-swift";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "gandi-ddns-swift::gandi-ddns-swiftPackageTests::ProductTarget" = {
+         isa = "PBXAggregateTarget";
+         buildConfigurationList = "OBJ_40";
+         buildPhases = (
+         );
+         dependencies = (
+            "OBJ_43",
+         );
+         name = "gandi-ddns-swiftPackageTests";
+         productName = "gandi-ddns-swiftPackageTests";
+      };
+   };
+   rootObject = "OBJ_1";
 }

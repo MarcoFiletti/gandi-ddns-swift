@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "gandi-ddns-swift::gandi-ddns-swift-test"
+               BuildableName = "gandi-ddns-swift-test.xctest"
+               BlueprintName = "gandi-ddns-swift-test"
+               ReferencedContainer = "container:gandi-ddns-swift.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <AdditionalOptions>
       </AdditionalOptions>
