@@ -22,6 +22,14 @@ if CommandLine.arguments.count == 2 {
         print("Failed to get IP")
     }
     
+    #if !os(macOS)
+        let command = "ip addr show dev enp1s0 | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"
+    #else
+        let command = "ifconfig | grep inet6"
+    #endif
+    
+    print(Shell.run(command) ?? "nope")
+    
 } else {
     print("No args, saving data: \(Test.sav())")
 }
