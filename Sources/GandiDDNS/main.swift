@@ -14,7 +14,7 @@ if CommandLine.arguments.count == 2 {
     }
     print("A is \(ajson.a)")
     
-    let ses = URLSession.init(configuration: .ephemeral)
+    let ses = URLSession.shared
     guard let ipUrl = URL(string: "https://api.ipify.org") else {
         throw NSError(domain: "Failed to get ip", code: 3)
     }
