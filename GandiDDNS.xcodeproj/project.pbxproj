@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A91BD08920AB523500464E2D /* IPFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91BD08820AB523500464E2D /* IPFetcher.swift */; };
 		A9E70AAA20AAFF28000CC35E /* Ajson.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E70AA920AAFF28000CC35E /* Ajson.swift */; };
 		OBJ_23 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* main.swift */; };
 		OBJ_24 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* test.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A91BD08820AB523500464E2D /* IPFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFetcher.swift; sourceTree = "<group>"; };
 		A9E70AA920AAFF28000CC35E /* Ajson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ajson.swift; sourceTree = "<group>"; };
 		"GandiDDNS::GandiDDNS::Product" /* GandiDDNS */ = {isa = PBXFileReference; lastKnownFileType = text; path = GandiDDNS; sourceTree = BUILT_PRODUCTS_DIR; };
 		"GandiDDNS::GandiDDNSTests::Product" /* GandiDDNSTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = GandiDDNSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 				OBJ_9 /* main.swift */,
 				OBJ_10 /* test.swift */,
 				A9E70AA920AAFF28000CC35E /* Ajson.swift */,
+				A91BD08820AB523500464E2D /* IPFetcher.swift */,
 			);
 			name = GandiDDNS;
 			path = Sources/GandiDDNS;
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				A91BD08920AB523500464E2D /* IPFetcher.swift in Sources */,
 				A9E70AAA20AAFF28000CC35E /* Ajson.swift in Sources */,
 				OBJ_23 /* main.swift in Sources */,
 				OBJ_24 /* test.swift in Sources */,

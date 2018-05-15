@@ -16,31 +16,12 @@ if CommandLine.arguments.count == 2 {
     }
     print("A is \(ajson.a)")
     
-    let ses = URLSession.shared
-    guard let ipUrl = URL(string: "https://api.ipify.org") else {
-        print("Failed to get ip url")
-        exit(2)
+    if let ipString = IPFetcher.getIP() {
+        print("IP is: \(ipString)")
+    } else {
+        print("Failed to get IP")
     }
     
-    let group = DispatchGroup()
-    
-    group.enter()
-    ses.dataTask(with: ipUrl) {
-        data, response, error in
-        
-        if let data = data, let ipString = String(data: data, encoding: .utf8) {
-            print("IP is: \(ipString)")
-        } else {
-            print("No IP String got")
-        }
-        
-        group.leave()
-    }.resume()
-    
-    if group.wait(timeout: DispatchTime.now() + 3.0) == .timedOut {
-        print("Failed to get ip: timeout")
-        exit(2)
-    }
 } else {
     print("No args, saving data: \(Test.sav())")
 }
