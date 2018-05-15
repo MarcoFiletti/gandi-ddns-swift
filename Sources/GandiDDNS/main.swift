@@ -28,7 +28,8 @@ if CommandLine.arguments.count == 2 {
         let command = "ifconfig | grep inet6"
     #endif
     
-    print(Shell.run(command) ?? "nope")
+    let shellRet = Shell.run(command) ?? "nope"
+    print("Shell returns: '\(shellRet)'")
     
 } else {
     print("No args, saving data: \(Test.sav())")
