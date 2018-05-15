@@ -16,20 +16,15 @@ if CommandLine.arguments.count == 2 {
     }
     print("A is \(ajson.a)")
     
-    if let ipString = IPFetcher.getIP() {
-        print("IP is: \(ipString)")
+    if let IPv4String = IPFetcher.getIPv4() {
+        print("IPv4 is: '\(IPv4String)'")
     } else {
         print("Failed to get IP")
     }
     
-    #if !os(macOS)
-        let command = "ip addr show dev enp1s0 | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"
-    #else
-        let command = "ifconfig | grep inet6"
-    #endif
-    
-    let shellRet = Shell.run(command) ?? "nope"
-    print("Shell returns: '\(shellRet.trimmingCharacters(in: .whitespacesAndNewlines))'")
+    if let IPv6String = IPFetcher.getIPv6() {
+        print("IPv6 is: '\(IPv6String)'")
+    }
     
 } else {
     print("No args, saving data: \(Test.sav())")
