@@ -1,4 +1,5 @@
 import Foundation
+import GandiDDNSLib
 
 if CommandLine.arguments.count == 2 {
     let fname = CommandLine.arguments[1]

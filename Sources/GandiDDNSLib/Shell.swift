@@ -7,9 +7,9 @@
 
 import Foundation
 
-class Shell {
+public class Shell {
 
-    static func run(_ command: String) -> String? {
+    public static func run(_ command: String) -> String? {
         let task = Process()
         task.launchPath = "/usr/bin/env"
         

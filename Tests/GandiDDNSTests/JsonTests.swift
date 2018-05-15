@@ -1,17 +1,11 @@
 import XCTest
+@testable import GandiDDNSLib
 
 class JsonTests: XCTestCase {
 
     func testOne() {
-        XCTAssertEqual(1, 1);
+        let a = Ajson()
+        XCTAssert(a.a == "one", "A should be one")
     }
     
-    func testTwo() {
-        XCTAssertEqual(2, 2);
-    }
-
-	static var allTests = [
-        ("test1", testOne),
-        ("test2", testTwo),
-    ]
 }

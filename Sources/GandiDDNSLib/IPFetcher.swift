@@ -7,10 +7,10 @@
 
 import Foundation
 
-class IPFetcher {
+public class IPFetcher {
     
     /// Returns a string containing IPv4 if successful, otherwise nil
-    static func getIPv4() -> String? {
+    public static func getIPv4() -> String? {
         
         let ses = URLSession.shared
         guard let ipUrl = URL(string: "https://api.ipify.org") else {
@@ -40,7 +40,7 @@ class IPFetcher {
     }
     
     /// Returns IPv6 using shell
-    static func getIPv6() -> String? {
+    public static func getIPv6() -> String? {
         
         #if !os(macOS)
             let command = "ip addr show dev enp1s0 | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"

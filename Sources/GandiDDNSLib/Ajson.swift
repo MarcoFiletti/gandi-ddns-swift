@@ -7,13 +7,13 @@
 
 import Foundation
 
-class Ajson: Codable {
+public class Ajson: Codable {
     
-    var a: String
+    public var a: String
     
-    var b: [Int]
+    public var b: [Int]
     
-    init() {
+    public init() {
         a = "one"
         b = [1 ,2]
     }
