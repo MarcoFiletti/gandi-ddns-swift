@@ -1,5 +1,5 @@
-# Ignore Gandi API key
-GandiAPI.key
+# Config is not versioned
+config.json
 
 # Compiled source #
 ###################
