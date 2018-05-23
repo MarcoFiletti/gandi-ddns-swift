@@ -1,8 +1,26 @@
 import Foundation
 import GandiDDNSLib
 
-let input = readLine()
-print(input)
+func readGandiKey() {
+    let keyname = "GandiAPI.key"
+    let url: URL = URL(fileURLWithPath: keyname)
+    if let data = try? Data(contentsOf: url),
+       let key = String(data: data, encoding: .utf8) {
+        print("Key is: \"\(key)\"")
+    } else {
+        print("Key in key: >", terminator: "")
+        if let input = readLine(), let data = input.data(using: .utf8) {
+            do {
+                try data.write(to: url)
+                print("Saved key")
+            } catch {
+                print("Failed to save key")
+            }
+        }
+    }
+}
+
+readGandiKey()
 
 if CommandLine.arguments.count == 2 {
     let fname = CommandLine.arguments[1]
