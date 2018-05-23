@@ -1,3 +1,6 @@
+# Ignore Gandi API key
+GandiAPI.key
+
 # Compiled source #
 ###################
 *.com

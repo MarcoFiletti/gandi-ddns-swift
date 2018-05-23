@@ -1,6 +1,9 @@
 import Foundation
 import GandiDDNSLib
 
+let input = readLine()
+print(input)
+
 if CommandLine.arguments.count == 2 {
     let fname = CommandLine.arguments[1]
     
