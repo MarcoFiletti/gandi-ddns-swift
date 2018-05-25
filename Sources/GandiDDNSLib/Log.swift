@@ -10,7 +10,7 @@ public class Log {
         guard Log.level != .silent else { return }
 
         if messageLevel.rawValue <= Log.level.rawValue {
-            print(message)
+            Swift.print(message)
         }
     }
 }
