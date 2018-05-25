@@ -8,14 +8,44 @@
 import Foundation
 
 public class IPFetcher {
+
+    /// IPv4 is cached here to prevent sending too many requests
+    static var lastIPv4: String?
+
+    /// IPv6 is cached here to prevent sending too many requests
+    static var lastIPv6: String?
+
+    public enum Error: Swift.Error {
+        case fetchFail
+    }
+
+    /// Helper function to get the ip depending on record type.
+    /// Uses cached values if present to avoid sending too many requests.
+    /// - throws: IPFetcher.Error.fetchFail if the address could not be retrieved
+    public static func getIP(forType: RecordType) throws -> String {
+        let maybeAddress: String?
+        switch forType {
+        case .A:
+            maybeAddress = lastIPv4 != nil ? lastIPv4! : getIPv4()
+        case .AAAA:
+            maybeAddress = lastIPv6 != nil ? lastIPv6! : getIPv6()
+        }
+
+        guard let foundAddress = maybeAddress else {
+            throw IPFetcher.Error.fetchFail
+        }
+
+        Log.print("IP address of current machine for record type \(forType.rawValue) is \(foundAddress)", .verbose)
+        return foundAddress
+    }
     
     /// Returns a string containing IPv4 if successful, otherwise nil
     public static func getIPv4() -> String? {
         
         let ses = URLSession.shared
         guard let ipUrl = URL(string: "https://api.ipify.org") else {
-            print("Failed to get ip url")
-            exit(2)
+            Log.print("Failed to create ip url")
+            return nil
         }
         
         let group = DispatchGroup()
@@ -33,9 +63,11 @@ public class IPFetcher {
             }.resume()
         
         guard group.wait(timeout: DispatchTime.now() + 3.0) != .timedOut else {
+            Log.print("Ipify request failed, couldn't get IPv4")
             return nil
         }
         
+        IPFetcher.lastIPv4 = ipString
         return ipString
     }
     
@@ -49,13 +81,16 @@ public class IPFetcher {
         #endif
         
         guard let shellRet = Shell.run(command) else {
+            Log.print("Shell command to obtain IPv6 failed")
             return nil
         }
         
         let trimmed = shellRet.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.count > 16 {
+        if trimmed.count > 12 {
+            IPFetcher.lastIPv6 = trimmed
             return trimmed
         } else {
+            Log.print("Shell command to obtained IPv6 returned an unexpected result")
             return nil
         }
 
