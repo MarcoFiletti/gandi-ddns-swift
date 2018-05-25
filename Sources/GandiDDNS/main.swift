@@ -20,7 +20,20 @@ func readGandiKey() {
     }
 }
 
-readGandiKey()
+func testGandi() {
+
+    let config = ConfigReader.default
+    Log.level = .verbose
+    Gandi.apply(config: config, dry_run: true)
+// let g1 = try! GandiWrapper(domain: d1)
+// try! g1.getIp(subdomain: "www", type: .A)
+// try! g1.getIp(subdomain: "www", type: .AAAA)
+// try! g1.getIp(subdomain: "vaff", type: .A)
+//  g1.updateIp(subdomain: "testplay", type: .A, newIp: "85.216.202.141")
+
+}
+
+// readGandiKey()
 
 if CommandLine.arguments.count == 2 {
     let fname = CommandLine.arguments[1]
