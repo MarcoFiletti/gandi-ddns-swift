@@ -20,11 +20,14 @@ func readGandiKey() {
     }
 }
 
-func testGandi() {
+func testGandi(dry_run: Bool) {
+
+    if dry_run == false {
+        print("better do a dry run for now")
+    }
 
     let config = ConfigReader.default
-    Log.level = .verbose
-    Gandi.apply(config: config, dry_run: true)
+    Gandi.apply(config: config, dry_run: dry_run)
 // let g1 = try! GandiWrapper(domain: d1)
 // try! g1.getIp(subdomain: "www", type: .A)
 // try! g1.getIp(subdomain: "www", type: .AAAA)
@@ -33,7 +36,30 @@ func testGandi() {
 
 }
 
-testGandi()
+var dry_run = false
+/// If we have any arguments check if they start with '-'
+/// If an argument was not recognised, print help
+if CommandLine.arguments.count > 1 {
+    for i in 1..<CommandLine.arguments.count {
+        let arg = CommandLine.arguments[i]
+        if arg.first == "-" {
+            if arg.contains("s") {
+                Log.level = .silent
+            } else if arg.contains("v") {
+                Log.level = .verbose
+                Log.print("Verbose mode on", .verbose)
+            }
+            if arg.contains("n") {
+                dry_run = true
+            }
+        } else {
+            print("Usage...")
+            exit(1)
+        }
+    }
+}
+
+testGandi(dry_run: dry_run)
 
 // readGandiKey()
 func testRead() {
