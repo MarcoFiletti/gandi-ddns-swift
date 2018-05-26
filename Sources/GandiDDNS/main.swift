@@ -20,9 +20,17 @@ func askForConfigAndQuit() {
             exit(1)
     }
 
-    try! ConfigReader.saveConfig(withDomain: domainName, key: key)
-    print("Data saved, quitting")
-    exit(0)
+    do {
+        try ConfigReader.saveConfig(withDomain: domainName, key: key)
+        print("Data saved, quitting")
+        exit(0)
+    } catch Gandi.Error.zoneNotFound {
+        print("Something wrong with what you just wrote, qutting")
+        exit(10)
+    } catch {
+        print("Failed to save data")
+        exit(10)
+    }
 }
 
 /// Reads config from file, or asks user for it and saves it, then quits
