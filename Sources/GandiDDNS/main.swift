@@ -24,12 +24,15 @@ func askForConfigAndQuit() {
         try ConfigReader.saveConfig(withDomain: domainName, key: key)
         print("Data saved, quitting")
         exit(0)
-    } catch Gandi.Error.zoneNotFound {
-        print("Something wrong with what you just wrote, qutting")
+    } catch Gandi.Error.notAuthorized {
+        print("Your key is wrong")
         exit(10)
+    } catch Gandi.Error.zoneNotFound {
+        print("Domain could not be found")
+        exit(20)
     } catch {
         print("Failed to save data")
-        exit(10)
+        exit(30)
     }
 }
 
