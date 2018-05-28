@@ -4,8 +4,19 @@ import GandiDDNSLib
 
 /// Help that is printed when we input the wrong options
 let usage = """
-    use like this
-    because i say so
+    Usage: GandiDDNS [options] [config]
+
+    Options:
+        -n Dry run:
+        -v Verbose:
+        -s Silent:
+
+    Example:
+        GandiDDNS -nv config2
+        Will read from config2.json
+
+    The first time run, creates config asking for Gandi API details and saves them
+    in config.json (or the given config file specified as a parameter)
     """
 
 /// Command line options
@@ -22,21 +33,20 @@ struct Options: CommandLineOptions {
 
 /// Asks config from user and saves it, then quits
 func askForConfigAndQuit(_ reader: ConfigReader) {
-    print("Please input details")
+    print(reader.filename + " not found, please provide Gandi API access details")
+    print("")
     print("Domain name: >", terminator: "")
     guard let domainData = readLine()?.data(using: .utf8) else {
-        print("Failed")
         exit(1)
     }
     print("API Key: >", terminator: "")
     guard let keyData = readLine()?.data(using: .utf8) else {
-        print("Failed")
         exit(1)
     }
     guard let domainName = String(data: domainData, encoding: .utf8),
           let key = String(data: keyData, encoding: .utf8) else {
             print("Failed to convert data")
-            exit(1)
+            exit(5)
     }
 
     do {
@@ -88,9 +98,13 @@ do {
         dry_run = options.contains(.dry_run)
 
         // if a json file is specified, use it instead of default
-        if let fname = arguments.first, fname.hasSuffix(".json") {
-            Log.print("Reading config from \(fname)")
-            optionalFile = fname
+        if let fname = arguments.first {
+            if fname.hasSuffix(".json") {
+                optionalFile = fname
+            } else {
+                optionalFile = fname + ".json"
+            }
+            Log.print("Reading config from \(optionalFile!)")
         }
     }
 } catch {
