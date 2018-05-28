@@ -2,6 +2,12 @@ import Foundation
 import CommandLineParser
 import GandiDDNSLib
 
+/// Help that is printed when we input the wrong options
+let usage = """
+    use like this
+    because i say so
+    """
+
 /// Command line options
 struct Options: CommandLineOptions {
     let rawValue: Int
@@ -88,7 +94,7 @@ do {
         }
     }
 } catch {
-    print("Usage...")
+    print(usage)
     exit(1)
 }
 
