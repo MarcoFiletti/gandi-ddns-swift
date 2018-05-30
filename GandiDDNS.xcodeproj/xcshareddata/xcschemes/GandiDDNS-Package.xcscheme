@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "GandiDDNS::GandiDDNSLib"
-               BuildableName = "GandiDDNSLib.framework"
-               BlueprintName = "GandiDDNSLib"
+               BlueprintIdentifier = "GandiDDNS::GandiDDNS"
+               BuildableName = "GandiDDNS"
+               BlueprintName = "GandiDDNS"
                ReferencedContainer = "container:GandiDDNS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "GandiDDNS::GandiDDNS"
-               BuildableName = "GandiDDNS"
-               BlueprintName = "GandiDDNS"
+               BlueprintIdentifier = "GandiDDNS::CommandLineParser"
+               BuildableName = "CommandLineParser.framework"
+               BlueprintName = "CommandLineParser"
+               ReferencedContainer = "container:GandiDDNS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GandiDDNS::GandiDDNSLib"
+               BuildableName = "GandiDDNSLib.framework"
+               BlueprintName = "GandiDDNSLib"
                ReferencedContainer = "container:GandiDDNS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,7 +54,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -50,6 +63,16 @@
                BlueprintIdentifier = "GandiDDNS::GandiDDNSTests"
                BuildableName = "GandiDDNSTests.xctest"
                BlueprintName = "GandiDDNSTests"
+               ReferencedContainer = "container:GandiDDNS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GandiDDNS::CommandLineParserTests"
+               BuildableName = "CommandLineParserTests.xctest"
+               BlueprintName = "CommandLineParserTests"
                ReferencedContainer = "container:GandiDDNS.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -70,9 +93,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "GandiDDNS::GandiDDNSLib"
-            BuildableName = "GandiDDNSLib.framework"
-            BlueprintName = "GandiDDNSLib"
+            BlueprintIdentifier = "GandiDDNS::GandiDDNS"
+            BuildableName = "GandiDDNS"
+            BlueprintName = "GandiDDNS"
             ReferencedContainer = "container:GandiDDNS.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

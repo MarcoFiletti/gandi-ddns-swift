@@ -19,6 +19,9 @@ let package = Package(
             dependencies: ["GandiDDNSLib", "CommandLineParser"]),
         .testTarget(
             name: "GandiDDNSTests",
-            dependencies: ["GandiDDNSLib", "CommandLineParser"]),
+            dependencies: ["GandiDDNSLib"]),
+        .testTarget(
+            name: "CommandLineParserTests",
+            dependencies: ["CommandLineParser"])
     ]
 )

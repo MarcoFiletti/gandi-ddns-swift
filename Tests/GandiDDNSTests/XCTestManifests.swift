@@ -1,5 +1,11 @@
 import XCTest
 
+extension GandiTests {
+    static let __allTests = [
+        ("testWithDetails", testWithDetails),
+    ]
+}
+
 extension IPTests {
     static let __allTests = [
         ("testIPv4", testIPv4),
@@ -7,17 +13,11 @@ extension IPTests {
     ]
 }
 
-extension JsonTests {
-    static let __allTests = [
-        ("testOne", testOne),
-    ]
-}
-
 #if !os(macOS)
 public func __allTests() -> [XCTestCaseEntry] {
     return [
+        testCase(GandiTests.__allTests),
         testCase(IPTests.__allTests),
-        testCase(JsonTests.__allTests),
     ]
 }
 #endif
