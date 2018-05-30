@@ -2,6 +2,8 @@ import XCTest
 
 extension GandiTests {
     static let __allTests = [
+        ("testAuthFailure", testAuthFailure),
+        ("testDomainFailure", testDomainFailure),
         ("testWithDetails", testWithDetails),
     ]
 }

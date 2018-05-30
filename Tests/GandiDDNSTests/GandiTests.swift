@@ -4,7 +4,8 @@ import XCTest
 class GandiTests: XCTestCase {
 
     /// Test using actual domain details. Edit the DomainDetails.swift file (after setting the skip-worktree git flag on it) the run this test.
-    /// To set the skip worktree flag, in root of package run: ``
+    /// To set the skip worktree flag, in root of package run:
+    /// `git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`
     func testWithDetails() {
         
         let subdomain = Gandi.Subdomain(name: "www", type: .A, ip: nil)
@@ -26,6 +27,28 @@ class GandiTests: XCTestCase {
             
         } catch {
             XCTFail("No exceptions were expected")
+        }
+    }
+    
+    func testAuthFailure() {
+        do {
+            let _ = try Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
+            XCTFail("An exception should be thrown")
+        } catch Gandi.Error.notAuthorized {
+            // this is expected
+        } catch {
+            XCTFail("The error not found sould be not authorized")
+        }
+    }
+    
+    func testDomainFailure() {
+        do {
+            let _ = try Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: DomainDetails.apiKey, subdomains: []))
+            XCTFail("An exception should be thrown")
+        } catch Gandi.Error.zoneNotFound {
+            // this is expected
+        } catch {
+            XCTFail("The error not found sould be zone not found")
         }
     }
     
