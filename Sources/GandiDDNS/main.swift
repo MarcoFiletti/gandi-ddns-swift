@@ -29,24 +29,22 @@ struct Options: CommandLineOptions {
     static let correspondingFlags = "nvs"
 }
 
-
-
 /// Asks config from user and saves it, then quits
 func askForConfigAndQuit(_ reader: ConfigReader) {
     print(reader.filename + " not found, please provide Gandi API access details")
     print("")
     print("Domain name: >", terminator: "")
     guard let domainData = readLine()?.data(using: .utf8) else {
-        exit(1)
+        exit(5)
     }
     print("API Key: >", terminator: "")
     guard let keyData = readLine()?.data(using: .utf8) else {
-        exit(1)
+        exit(6)
     }
     guard let domainName = String(data: domainData, encoding: .utf8),
           let key = String(data: keyData, encoding: .utf8) else {
             print("Failed to convert data")
-            exit(5)
+            exit(10)
     }
 
     do {
@@ -58,13 +56,13 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
         exit(0)
     } catch Gandi.Error.notAuthorized {
         print("Inserted key was rejected. Quitting.")
-        exit(10)
+        exit(20)
     } catch Gandi.Error.zoneNotFound {
         print("Domain name could not be found. Quitting.")
-        exit(20)
+        exit(30)
     } catch {
         print("Failed to save '\(reader.filename)' to disk.")
-        exit(30)
+        exit(40)
     }
 }
 
@@ -116,6 +114,8 @@ if dry_run == false {
     print("better do a dry run for now")
     exit(2)
 }
+
 let reader = ConfigReader(specificFile: optionalFile)
 let config = readConfigOrQuit(reader)
+
 Gandi.apply(config: config, dry_run: dry_run)
