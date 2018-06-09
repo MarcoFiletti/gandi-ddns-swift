@@ -1,3 +1,3 @@
 # gandi-ddns-swift
 
-A description of this package.
+Updates Gandi DDNS records, pointing them to the current machine.
