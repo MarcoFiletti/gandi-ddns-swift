@@ -9,6 +9,11 @@ class GandiTests: XCTestCase {
     func testWithDetails() {
         
         let subdomain = Gandi.Subdomain(name: "www", type: .A, ip: nil)
+
+        if DomainDetails.domainName == "example.com" {
+            fatalError("The DomainDetails.swift file should point to an actual domain in order to test the API calls")
+        }
+
         let domain = Gandi.Domain(name: DomainDetails.domainName, apiKey: DomainDetails.apiKey, subdomains: [subdomain])
         
         do {
