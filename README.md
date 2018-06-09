@@ -8,13 +8,11 @@
     <img src="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift.svg" alt="Build status">
   </a>
   <a href="https://developer.apple.com/swift/" target="_blank">
-    <img src="https://img.shields.io/badge/Platforms-OS%20X%20%B7%20Linux%20-lightgray.svg" alt="Platforms OS X | Linux">
+    <img src="https://img.shields.io/badge/Platforms-OS%20X%20%B7%20Linux%20-lightgray.svg" alt="For OS X and Linux">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
   </a>
 </p>
-
-
 
 Updates Gandi DDNS records, pointing them to the current machine.

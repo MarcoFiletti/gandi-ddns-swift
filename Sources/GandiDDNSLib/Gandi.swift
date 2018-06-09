@@ -9,8 +9,9 @@ public class Gandi {
             let instance: Gandi
             do {
                 instance = try Gandi(domain: domain)
+                Log.print("\nRunning: \(domain.name)", .verbose)
                 if dry_run {
-                    Log.print("Note: dry run, DNS records will not be modified for domain \(domain.name)")
+                    Log.print("Note: dry run, DNS records will not actually be modified for \(domain.name)")
                     instance.dry_run = dry_run
                 }
             } catch {
