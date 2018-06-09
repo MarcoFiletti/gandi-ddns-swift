@@ -4,6 +4,9 @@
   <a href="https://swift.org" target="_blank">
     <img src="https://img.shields.io/badge/swift-4.1-brightgreen.svg" alt="Swift 4.1">
   </a>
+  <a href="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift" target="_blank">
+    <img src="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift.svg" alt="Build status">
+  </a>
   <a href="https://developer.apple.com/swift/" target="_blank">
     <img src="https://img.shields.io/badge/Platforms-OS%20X%20%B7%20Linux%20-lightgray.svg" alt="Platforms OS X | Linux">
   </a>

@@ -1,0 +1,12 @@
+os:
+  - linux
+  - osx
+language: generic
+sudo: required
+dist: trusty
+osx_image: xcode9.3
+install:
+  - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+script:
+  - if [ $TRAVIS_OS_NAME == "linux" ]; then swiftenv install 4.1; fi
+  - swift build
