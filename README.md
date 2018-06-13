@@ -8,7 +8,7 @@
     <img src="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift.svg" alt="Build status">
   </a>
   <a href="https://developer.apple.com/swift/" target="_blank">
-    <img src="https://img.shields.io/badge/Platforms-OS%20X%20%B7%20Linux%20-lightgray.svg" alt="For OS X and Linux">
+    <img src="https://img.shields.io/badge/Platforms-macOS%20%B7%20Linux%20-lightgray.svg" alt="For macOS and Linux">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
