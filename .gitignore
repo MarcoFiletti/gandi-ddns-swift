@@ -5,6 +5,9 @@ GandiDDNS.xcodeproj
 # Config is not versioned
 config.json
 
+# Ignore executable
+GandiDDNS
+
 # Compiled source #
 ###################
 *.com

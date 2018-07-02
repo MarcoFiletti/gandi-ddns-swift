@@ -110,11 +110,6 @@ do {
     exit(1)
 }
 
-if dry_run == false {
-    print("better do a dry run for now")
-    exit(2)
-}
-
 let reader = ConfigReader(specificFile: optionalFile)
 let config = readConfigOrQuit(reader)
 

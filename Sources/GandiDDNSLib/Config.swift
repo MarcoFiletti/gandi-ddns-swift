@@ -27,13 +27,13 @@ public class ConfigReader {
     }
     
     /// Reads config from a file. Returns nil if the file doesn't exist.
+    /// First looks in directory where executable is found, then current dir.
     /// If a read failure happens (e.g. wrong format of json) throws error.
     public func read() throws -> Config? {
-        guard FileManager.default.isReadableFile(atPath: filename) else {
+        guard let url = urlForReading(filename: filename) else {
             return nil
         }
 
-        let url: URL = URL(fileURLWithPath: filename)
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
         let config = try decoder.decode(Config.self, from: data)
@@ -61,5 +61,27 @@ public class ConfigReader {
         
         try data.write(to: url)
 
+    }
+
+    /// Returns the URL for the specified config filename.
+    /// First checks in the directory of the executable,
+    /// then in the current directory. Returns nil if the file
+    /// couldn't be found.
+    private func urlForReading(filename: String) -> URL? {
+        var url: URL?
+        let env = ProcessInfo.processInfo.environment
+        if let uscore = env["_"] {
+            let execDir = URL(fileURLWithPath: uscore).deletingLastPathComponent()
+            let execDirJson = execDir.appendingPathComponent(filename)
+            if let reachable = try? execDirJson.checkResourceIsReachable(), reachable {
+                url = execDirJson
+            }
+        }
+        
+        if url == nil && FileManager.default.isReadableFile(atPath: filename) {
+            url = URL(fileURLWithPath: filename)
+        }
+
+        return url
     }
 }
