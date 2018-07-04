@@ -68,20 +68,16 @@ public class ConfigReader {
     /// then in the current directory. Returns nil if the file
     /// couldn't be found.
     private func urlForReading(filename: String) -> URL? {
-        var url: URL?
-        let env = ProcessInfo.processInfo.environment
-        if let uscore = env["_"] {
-            let execDir = URL(fileURLWithPath: uscore).deletingLastPathComponent()
-            let execDirJson = execDir.appendingPathComponent(filename)
-            if let reachable = try? execDirJson.checkResourceIsReachable(), reachable {
-                url = execDirJson
-            }
-        }
+        let cmd = CommandLine.arguments[0]
+        let execDir = URL(fileURLWithPath: cmd).deletingLastPathComponent()
+        let execDirJson = execDir.appendingPathComponent(filename)
         
-        if url == nil && FileManager.default.isReadableFile(atPath: filename) {
-            url = URL(fileURLWithPath: filename)
+        if let reachable = try? execDirJson.checkResourceIsReachable(), reachable {
+            return execDirJson
+        } else if FileManager.default.isReadableFile(atPath: filename) {
+            return URL(fileURLWithPath: filename)
+        } else {
+            return  nil
         }
-
-        return url
     }
 }

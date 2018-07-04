@@ -29,8 +29,14 @@ struct Options: CommandLineOptions {
     static let correspondingFlags = "nvs"
 }
 
-/// Asks config from user and saves it, then quits
+/// Asks config from user and saves it, then quits.
+/// If this is not an interactive terminal, exits with error 1.
 func askForConfigAndQuit(_ reader: ConfigReader) {
+    guard ProcessInfo.processInfo.environment["TERM"] != nil else {
+        print("No config present and this is not an interactive terminal, qutting.")
+        exit(1)
+    }
+
     print(reader.filename + " not found, please provide Gandi API access details")
     print("")
     print("Domain name: >", terminator: "")
