@@ -43,27 +43,27 @@ public class Gandi {
         case subError
     }
 
-    struct Domain: Codable {
+    public struct Domain: Codable {
         let name: String
         let apiKey: String
         let subdomains: [Gandi.Subdomain]
     }
 
-    struct Subdomain: Codable {
+    public struct Subdomain: Codable {
         let name: String
         let type: RecordType
         let ip: String?
     }
 
-    let domain: Gandi.Domain
-    let baseUrl: String
+    public let domain: Gandi.Domain
+    public let baseUrl: String
     
     /// Default zone. Initialized if domain exists and key is correct.
     /// Always gets overwritten when requesting zone.
-    var zone: Zone?
+    public var zone: Zone?
     
     /// Throws zoneNotFound if zone fetch failed (e.g. wrong key).
-    init(domain: Gandi.Domain) throws {
+    public init(domain: Gandi.Domain) throws {
         self.domain = domain
         self.baseUrl = "https://dns.api.gandi.net/api/v5/domains/" + domain.name
         
@@ -80,7 +80,7 @@ public class Gandi {
     }
     
     /// A DNS zone, as represented in Gandi's API
-    struct Zone: Codable {
+    public struct Zone: Codable {
         /// UUID of zone
         let zone_uuid: String
         /// Address pointing to zone (includes UUID in address)
@@ -88,7 +88,7 @@ public class Gandi {
     }
 
     /// A DNS record, as represented in Gandi's API
-    struct Record: Codable {
+    public struct Record: Codable {
         let rrset_name: String
         let rrset_type: String
         let rrset_ttl: Int = 10800
@@ -108,10 +108,10 @@ public class Gandi {
     }
     
     /// The request we want to send to Gandi
-    enum Request {
+    public enum Request {
         /// We request zone information
         case getZone
-        /// We request record information for the given subdomain (record name) and record type (make sure url points to zone href)
+        /// We request record information for the given subdomain name (record name) and record type (make sure url points to zone href)
         case getRecord(String, RecordType)
         /// We want to add a record (make sure url points to zone href)
         case addRecord(Record)
@@ -120,7 +120,7 @@ public class Gandi {
     }
 
     /// A response from Gandi
-    enum Response {
+    public enum Response {
         /// Gandi replied with a zone
         case zone(Zone)
         /// Gandi replied with a record
@@ -135,7 +135,7 @@ public class Gandi {
      - parameter req: The type of request we want to submit
      - returns Gandi's response
      */
-    func send(_ req: Request) throws -> Response {
+    public func send(_ req: Request) throws -> Response {
         let url: URL
         
         switch req {
@@ -250,14 +250,14 @@ public class Gandi {
     
     /// Returns ip, nil if subdomain was not found.
     /// - throws: `Gandi.Error.unexpectedResponse` if an error different than not found was returned.
-    public func getIp(subdomain: String, type: RecordType) throws -> String? {
+    public func getIp(subdomainName: String, type: RecordType) throws -> String? {
         do {
-            let resp = try send(.getRecord(subdomain, type))
+            let resp = try send(.getRecord(subdomainName, type))
             switch resp {
             case .record(let foundRecord):
                 // if we found a valid record, returns first value
                 guard foundRecord.rrset_values.count > 0 else {
-                    Log.print("Found an empty DNS record for subdomain \(subdomain)")
+                    Log.print("Found an empty DNS record for subdomain \(subdomainName)")
                     throw Gandi.Error.unexpectedResponse
                 }
                 return foundRecord.rrset_values[0]
@@ -271,18 +271,18 @@ public class Gandi {
     
     /// Updates the ip for the given record, if different. If the record doesn't exists, creates it.
     /// - throws: `Gandi.Error.unexpectedResponse` if an unexpected error took place (e.g. timeout)
-    public func updateIp(subdomain: String, type: RecordType, newIp: String) throws {
-        let maybeIp = try self.getIp(subdomain: subdomain, type: type)
-        let newRecord = Record(name: subdomain, type: type, value: newIp)
-        if maybeIp == nil {
-            Log.print("Subdomain with name \(subdomain) doesn't exist, creating it", .verbose)
+    public func updateIp(_ subdomain: Subdomain, newIp: String) throws {
+        let maybePreviousIp = try self.getIp(subdomainName: subdomain.name, type: subdomain.type)
+        let newRecord = Record(name: subdomain.name, type: subdomain.type, value: newIp)
+        if maybePreviousIp == nil {
+            Log.print("Creating subdomain \(subdomain.name) in \(domain.name) pointing to \(newIp)")
             let _ = try send(.addRecord(newRecord))
-        } else if let foundIp = maybeIp {
-            if foundIp != newIp {
-                Log.print("Attempting to update address from \(foundIp) to \(newIp)", .verbose)
+        } else if let previousIp = maybePreviousIp {
+            if previousIp != newIp {
+                Log.print("Updating \(subdomain.name).\(domain.name) from \(previousIp) to \(newIp)")
                 let _ = try send(.updateRecord(newRecord))
             } else {
-                Log.print("Desired address already matches Gandi DNS value for domain \(subdomain)", .verbose)
+                Log.print("Desired address already matches Gandi DNS value for \(subdomain.name).\(domain.name)", .verbose)
             }
         }
     }
@@ -298,7 +298,7 @@ public class Gandi {
             // if a desired ip is set use it, otherwise use ip for current machine
             let newIp: String = subdomain.ip != nil ? subdomain.ip! : try IPFetcher.getIP(forType: subdomain.type)
             do {
-                try self.updateIp(subdomain: subdomain.name, type: subdomain.type, newIp: newIp)
+                try self.updateIp(subdomain, newIp: newIp)
             } catch {
                 Log.print("Failed to update \(subdomain.type.rawValue) record for subdomain '\(subdomain.name)' with new ip '\(newIp)'")
                 foundError = true

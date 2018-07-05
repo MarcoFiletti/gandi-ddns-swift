@@ -17,7 +17,7 @@ public class Log {
 
 /// Level of verbosity of a message (in ascending order)
 public enum LogLevel: Int {
-    /// Prints nothing (returns code different than 0 can be used to detect errors)
+    /// Prints nothing (return codes different than 0 can be used to detect errors)
     case silent
     /// Only prints when IPs are updated
     case normal

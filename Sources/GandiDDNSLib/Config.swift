@@ -15,6 +15,9 @@ public class ConfigReader {
     public let filename: String
 
     private static let defaultFilename = "config.json"
+    
+    /// URL for file that was actually read. Nil if file couldn't be found
+    public let url: URL?
 
     /// Creates a new instance associated to a json file (by default, config.json).
     /// - parameter specificFile: Optionally, we can specify a json file name to be used instead of the default config.json
@@ -24,13 +27,14 @@ public class ConfigReader {
         } else {
             filename = ConfigReader.defaultFilename
         }
+        url = ConfigReader.urlForReading(filename: filename)
     }
     
     /// Reads config from a file. Returns nil if the file doesn't exist.
     /// First looks in directory where executable is found, then current dir.
     /// If a read failure happens (e.g. wrong format of json) throws error.
     public func read() throws -> Config? {
-        guard let url = urlForReading(filename: filename) else {
+        guard let url = self.url else {
             return nil
         }
 
@@ -67,7 +71,7 @@ public class ConfigReader {
     /// First checks in the directory of the executable,
     /// then in the current directory. Returns nil if the file
     /// couldn't be found.
-    private func urlForReading(filename: String) -> URL? {
+    private static func urlForReading(filename: String) -> URL? {
         let cmd = CommandLine.arguments[0]
         let execDir = URL(fileURLWithPath: cmd).deletingLastPathComponent()
         let execDirJson = execDir.appendingPathComponent(filename)
