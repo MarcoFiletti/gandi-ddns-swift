@@ -15,4 +15,113 @@
   </a>
 </p>
 
-Updates Gandi DDNS records, pointing them to the current machine.
+
+`GandiDDNS` updates Gandi's DNS records via the [LiveDNS API](http://doc.livedns.gandi.net), pointing them to the current machine.
+
+The executable can be compiled and moved in the current folder like this:
+`swift build -c release && mv -v .build/release/GandiDDNS .`
+
+Upon first run, it will ask for the Gandi domain (e.g. example.com) and API key (an alphanumeric string).
+
+`./GandiDDNS`
+
+If the domain and key were accepted by Gandi, it will create a `config.json` file with a simple configuration that will point `@` and `www` records to the current machine for both IPv4 and IPv6 addresses.
+
+More configuration examples can be seen below in [Config Examples](#config-examples)
+
+Full usage:
+
+`./GandiDDNS [options] [config]`
+
+where config is a json file containing a configuration (defaults to `config.json`
+
+**Options**:
+
+`-n` dry run: does not actually modify records
+
+`-v` verbose: prints every single step
+
+`-q` quiet: prints nothing. Use return codes to detect errors (0 means everything was successful).
+
+For example, `./GandiDDNS -vn config2.json` starts a dry, verbose run using `config2.json`; use this to tests configurations before deployment.
+
+
+### Config Examples
+
+Config files contain a list of objects called `domains`. Each object in it has an `apiKey`, `name` and `subdomains` field. `subdomains` is a list of objects with `name` (DNS Record name) and `type` (`A` for IPv4 or `AAAA` for IPv6). Optionally, a subdomain can contain an `ip` field which will be used to point to record to (instead of using the machine's current IP).
+
+This is a very basic config with only `www` and `@` entries for IPv4
+
+```
+{
+  "domains" : [
+    {
+      "name" : "example.com",
+      "apiKey" : "abcdefg123456",
+      "subdomains" : [
+        {
+          "name" : "www",
+          "type" : "A"
+        },
+        {
+          "name" : "@",
+          "type" : "A"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+A config can be used to control multiple domains pointing to the same machine, like this
+
+```
+{
+  "domains" : [
+    {
+      "name" : "example.com",
+      "apiKey" : "abcdefg123456",
+      "subdomains" : [
+        {
+          "name" : "www",
+          "type" : "A"
+        },
+        {
+          "name" : "@",
+          "type" : "A"
+        }
+      ]
+    },
+    {
+      "name" : "example2.com",
+      "apiKey" : "000000aaaaaaa",
+      "subdomains" : [
+        {
+          "name" : "www",
+          "type" : "A"
+        },
+        {
+          "name" : "@",
+          "type" : "A"
+        },
+        {
+          "name" : "ipv6",
+          "type" : "AAAA"
+        }
+      ]
+    }
+  ]
+}
+```
+
+in the example, we used an IPv6 record only for ipv6.example2.com. 
+
+### Testing
+
+Developers can test the package with `swift test`. To do a full test using real data, edit the `Tests/GandiDDNSTests/DomainDetails.swift` and include a real API name and key. This performs a dry run using the specified details and mock configs.
+
+Remember to skip the `DomainDetails.swift` file in git to avoid accidental pushing of actual API details:
+
+`git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`

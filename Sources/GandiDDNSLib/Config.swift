@@ -48,9 +48,10 @@ public class ConfigReader {
     /// - throws Gandi.Error.zoneNotFound if there is something wrong with the domain (e.g. wrong key)
     public func saveConfig(withDomain: String, key: String) throws {
         let s1 = Gandi.Subdomain(name: "www", type: .A, ip: nil)
-        let s2 = Gandi.Subdomain(name: "@", type: .A, ip: nil)
-        let s3 = Gandi.Subdomain(name: "ipv6", type: .AAAA, ip: nil)
-        let d1 = Gandi.Domain(name: withDomain, apiKey: key, subdomains: [s1, s2, s3])
+        let s2 = Gandi.Subdomain(name: "www", type: .AAAA, ip: nil)
+        let s3 = Gandi.Subdomain(name: "@", type: .A, ip: nil)
+        let s4 = Gandi.Subdomain(name: "@", type: .AAAA, ip: nil)
+        let d1 = Gandi.Domain(name: withDomain, apiKey: key, subdomains: [s1, s2, s3, s4])
         let config = Config(domains: [d1])
 
         // Test configuration before encoding it
