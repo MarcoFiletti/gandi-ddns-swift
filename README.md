@@ -29,17 +29,17 @@ If the domain and key were accepted by Gandi, it will create a `config.json` fil
 
 More configuration examples can be seen below in [Config Examples](#config-examples)
 
-Full usage:
+## Usage:
 
 `./GandiDDNS [options] [config]`
 
-where config is a json file containing a configuration (defaults to `config.json`
+where config is a json file containing a configuration (defaults to `config.json`)
 
 **Options**:
 
-`-n` dry run: does not actually modify records
+`-n` dry run: does not actually modify records.
 
-`-v` verbose: prints every single step
+`-v` verbose: prints every single step.
 
 `-q` quiet: prints nothing. Use return codes to detect errors (0 means everything was successful).
 
@@ -48,7 +48,7 @@ For example, `./GandiDDNS -vn config2.json` starts a dry, verbose run using `con
 
 ### Config Examples
 
-Config files contain a list of objects called `domains`. Each object in it has an `apiKey`, `name` and `subdomains` field. `subdomains` is a list of objects with `name` (DNS Record name) and `type` (`A` for IPv4 or `AAAA` for IPv6). Optionally, a subdomain can contain an `ip` field which will be used to point to record to (instead of using the machine's current IP).
+Config files contain a list of objects called `domains`. Each object in it has the fields `apiKey`, `name` and `subdomains`. `subdomains` is a list of objects with `name` (DNS Record name) and `type` (`A` for IPv4 or `AAAA` for IPv6). Optionally, a subdomain can contain an `ip` field which will be used to point to record to (instead of using the machine's current IP).
 
 This is a very basic config with only `www` and `@` entries for IPv4
 
@@ -91,6 +91,11 @@ A config can be used to control multiple domains pointing to the same machine, l
         {
           "name" : "@",
           "type" : "A"
+        },
+        {
+          "name": "static",
+          "type": "A",
+          "ip": "123.123.123.123"
         }
       ]
     },
@@ -116,12 +121,12 @@ A config can be used to control multiple domains pointing to the same machine, l
 }
 ```
 
-in the example, we used an IPv6 record only for ipv6.example2.com. 
+in the example, we used forced an IPv4 of `123.123.123.123` for static.example.com an we included an IPv6 record only for ipv6.example2.com. 
 
 ### Testing
 
-Developers can test the package with `swift test`. To do a full test using real data, edit the `Tests/GandiDDNSTests/DomainDetails.swift` and include a real API name and key. This performs a dry run using the specified details and mock configs.
+Developers can test the package with `swift test`. To do a full test using real data, edit the `Tests/GandiDDNSTests/DomainDetails.swift` and include a real API name and key. Swift testing will then perform a dry run using the specified details and various mock configs.
 
-Remember to skip the `DomainDetails.swift` file in git to avoid accidental pushing of actual API details:
+Remember to skip the `DomainDetails.swift` file in git to avoid accidental pushing of real API details:
 
 `git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`
