@@ -75,7 +75,10 @@ public class IPFetcher {
     public static func getIPv6() -> String? {
         
         #if !os(macOS)
-            let command = "ip addr show dev enp1s0 | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"
+            guard let iface = Shell.run("ifconfig -s | awk '{ print $1 }' | grep en") else {
+                return nil
+            }
+            let command = "ip addr show dev \(iface.trimmingCharacters(in: .whitespacesAndNewlines)) | sed -e's/^.*inet6 \\([^ ]*\\)\\/.*$/\\1/;t;d' | head -1"
         #else
             let command = "ifconfig en0 | grep inet6 | grep \"autoconf secured\" | awk -F \" \" '{print $2}' | head -1"
         #endif
