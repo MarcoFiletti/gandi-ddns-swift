@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://swift.org" target="_blank">
-    <img src="https://img.shields.io/badge/swift-4.1-brightgreen.svg" alt="Swift 4.1">
+    <img src="https://img.shields.io/badge/swift-4.2-brightgreen.svg" alt="Swift 4.2">
   </a>
   <a href="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift" target="_blank">
     <img src="https://travis-ci.org/MarcoFiletti/gandi-ddns-swift.svg" alt="Build status">
