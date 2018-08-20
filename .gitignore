@@ -2,8 +2,8 @@
 # since it can regenerated
 GandiDDNS.xcodeproj
 
-# Config is not versioned
-config.json
+# Ignoring all (config) json files
+*.json
 
 # Ignore executable
 GandiDDNS
