@@ -22,11 +22,11 @@ class GandiTests: XCTestCase {
             g1.dry_run = true
 
             let x = try g1.getIp(subdomainName: "www", type: .A)
-            XCTAssertNotNil(x, "First request should be valid (if we support IPv4")
+            XCTAssertNotNil(x, "First request should be valid (if we support IPv4)")
             let y = try g1.getIp(subdomainName: "www", type: .AAAA)
-            XCTAssertNotNil(y, "Second request should be valid (if we support IPv6")
+            XCTAssertNotNil(y, "Second request should be valid (if we support IPv6)")
             let z = try g1.getIp(subdomainName: "nothingtoseehere", type: .A)
-            XCTAssertNil(z, "Third request should be nil (subdomain should not exist")
+            XCTAssertNil(z, "Third request should be nil (subdomain should not exist)")
             
             try g1.updateAllSubdomains()
             
