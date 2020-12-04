@@ -1,4 +1,5 @@
 import Foundation
+import FoundationNetworking
 
 /// Wraps communication with Gandi
 public class Gandi {
@@ -91,7 +92,7 @@ public class Gandi {
     public struct Record: Codable {
         let rrset_name: String
         let rrset_type: String
-        let rrset_ttl: Int = 10800
+        let rrset_ttl: Int
         var rrset_values: [String]
         
         /// Creates a new record (e.g. in case it didn't exist on Gandi)
@@ -99,6 +100,7 @@ public class Gandi {
             self.rrset_name = name
             self.rrset_type = type.rawValue
             self.rrset_values = [value]
+            self.rrset_ttl = 10800
         }
         
         /// Updates record with new value (i.e. address)

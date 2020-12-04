@@ -11,7 +11,7 @@ public protocol CommandLineOptions: OptionSet where RawValue: FixedWidthInteger 
 public extension CommandLineOptions {
     /// Returns an option corresponding to a flag (e.g. returns `.dry_run` for the flag `n`).
     /// - throws: `CommandLineParseError.invalidOption` if the given flag was not found
-    public static func option(forCharacter: Character) throws -> Self {
+    static func option(forCharacter: Character) throws -> Self {
         for (n, char) in correspondingFlags.enumerated() {
             if forCharacter == char {
                 return self.init(rawValue: 1 << n)
