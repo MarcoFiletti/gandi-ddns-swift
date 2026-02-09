@@ -62,9 +62,12 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
               Optionally edit the file and run again to apply settings to Gandi.
               """)
         exit(0)
-    } catch Gandi.Error.notAuthorized {
+    } catch Gandi.Error.unauthorized {
         print("Inserted key was rejected. Quitting.")
         exit(20)
+    } catch Gandi.Error.forbidden {
+        print("Access to Gandi resource forbidden. Quitting.")
+        exit(21)
     } catch Gandi.Error.zoneNotFound {
         print("Domain name could not be found. Quitting.")
         exit(30)
@@ -77,7 +80,7 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
 /// Reads config from file, or asks user for it and saves it, then quits
 func readConfigOrQuit(_ reader: ConfigReader) -> Config {
     // Returning a wrapped nullable maybeConfig since this step checks for corruption exceptions
-    guard let maybeConfig = try? reader.read() else {
+    guard let config = try? reader.read() else {
         let filePath: String
         if let url = reader.url {
             filePath = "at \(url.path)"
@@ -87,13 +90,8 @@ func readConfigOrQuit(_ reader: ConfigReader) -> Config {
         Log.print("Config file \(filePath) is not properly formatted; quitting.")
         exit(50)
     }
-    // This checks if the file exists or not
-    if let config = maybeConfig {
-        return config
-    } else {
-        askForConfigAndQuit(reader)
-        fatalError("We should never get here, asking for config should always quit")
-    }
+    
+    return config
 }
 
 var dry_run = false

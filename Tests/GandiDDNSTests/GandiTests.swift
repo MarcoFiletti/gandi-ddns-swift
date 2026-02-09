@@ -39,10 +39,10 @@ class GandiTests: XCTestCase {
         do {
             let _ = try Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
             XCTFail("An exception should be thrown")
-        } catch Gandi.Error.notAuthorized {
+        } catch Gandi.Error.forbidden, Gandi.Error.unauthorized {
             // this is expected
         } catch {
-            XCTFail("The error not found sould be not authorized")
+            XCTFail("The error not found sould be not authorized or forbidden, instead it was \(error)")
         }
     }
     

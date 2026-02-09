@@ -1,5 +1,4 @@
 import Foundation
-import FoundationNetworking
 
 /// Wraps communication with Gandi
 public class Gandi {
@@ -34,8 +33,10 @@ public class Gandi {
     public enum Error: Swift.Error {
         /// An unexpected error occurred
         case unexpectedResponse
-        /// This indicated that API Key is wrong
-        case notAuthorized
+        /// This indicates that API Key is wrong
+        case unauthorized
+        /// This indicates that the user cannot access the given resource
+        case forbidden
         /// This indicates that domain was wrong
         case zoneNotFound
         /// Something was not found (in general)
@@ -195,7 +196,9 @@ public class Gandi {
             case 404:
                 throw Gandi.Error.notFound
             case 401:
-                throw Gandi.Error.notAuthorized
+                throw Gandi.Error.unauthorized
+            case 403:
+                throw Gandi.Error.forbidden
             default:
                 throw Gandi.Error.unexpectedResponse
             }
