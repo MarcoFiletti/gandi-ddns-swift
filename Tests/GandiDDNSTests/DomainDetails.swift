@@ -5,7 +5,6 @@
 //  Created by Marco Filetti on 30/05/2018.
 //
 
-import XCTest
 @testable import GandiDDNSLib
 
 /// To test properly, this must contain the actual domain details.
