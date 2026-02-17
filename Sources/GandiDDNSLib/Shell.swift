@@ -28,7 +28,7 @@ public class Shell {
                 return nil
             }
         } catch {
-            Log.print("Failed to launch shell command \"\(command)\"")
+            ConsolePrinter.print("Failed to launch shell command \"\(command)\"")
             return nil
         }
     }

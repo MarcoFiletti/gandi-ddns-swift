@@ -1,5 +1,5 @@
 /// Simple logger than prints to console depending on log level
-public class Log {
+public class ConsolePrinter {
 
     /// Everything which is at most this level of verbosity will be outputted.
     public static var level = LogLevel.normal
@@ -7,9 +7,9 @@ public class Log {
     /// Prints the message if its verbosity is <= current verbosity level
     /// and the current setting is not silent.
     public static func print(_ message: String, _ messageLevel: LogLevel = .normal) {
-        guard Log.level != .silent else { return }
+        guard ConsolePrinter.level != .silent else { return }
 
-        if messageLevel.rawValue <= Log.level.rawValue {
+        if messageLevel.rawValue <= ConsolePrinter.level.rawValue {
             Swift.print(message)
         }
     }

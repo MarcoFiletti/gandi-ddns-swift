@@ -35,7 +35,7 @@ public class IPFetcher {
             throw IPFetcher.Error.fetchFail
         }
 
-        Log.print("IP address of current machine for record type \(forType.rawValue) is \(foundAddress)", .verbose)
+        ConsolePrinter.print("IP address of current machine for record type \(forType.rawValue) is \(foundAddress)", .verbose)
         return foundAddress
     }
     
@@ -44,7 +44,7 @@ public class IPFetcher {
         
         let ses = URLSession.shared
         guard let ipUrl = URL(string: "https://api.ipify.org") else {
-            Log.print("Failed to create ip url")
+            ConsolePrinter.print("Failed to create ip url")
             return nil
         }
         
@@ -63,7 +63,7 @@ public class IPFetcher {
             }.resume()
         
         guard group.wait(timeout: DispatchTime.now() + 3.0) != .timedOut else {
-            Log.print("Ipify request failed, couldn't get IPv4")
+            ConsolePrinter.print("Ipify request failed, couldn't get IPv4")
             return nil
         }
         
@@ -84,7 +84,7 @@ public class IPFetcher {
         #endif
         
         guard let shellRet = Shell.run(command) else {
-            Log.print("Shell command to obtain IPv6 failed")
+            ConsolePrinter.print("Shell command to obtain IPv6 failed")
             return nil
         }
         
@@ -93,7 +93,7 @@ public class IPFetcher {
             IPFetcher.lastIPv6 = trimmed
             return trimmed
         } else {
-            Log.print("Shell command to obtained IPv6 returned an unexpected result")
+            ConsolePrinter.print("Shell command to obtained IPv6 returned an unexpected result")
             return nil
         }
 

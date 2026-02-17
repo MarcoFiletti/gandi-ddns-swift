@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "GandiDDNS",
+    products: [
+        .library(name: "GandiDDNSLib", targets: ["GandiDDNSLib"]),
+        .executable(name: "GandiDDNS", targets: ["GandiDDNS"]),
+    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),

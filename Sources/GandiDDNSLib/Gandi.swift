@@ -9,19 +9,19 @@ public class Gandi {
             let instance: Gandi
             do {
                 instance = try Gandi(domain: domain)
-                Log.print("\nRunning: \(domain.name)", .verbose)
+                ConsolePrinter.print("\nRunning: \(domain.name)", .verbose)
                 if dry_run {
-                    Log.print("Note: dry run, DNS records will not actually be modified for \(domain.name)")
+                    ConsolePrinter.print("Note: dry run, DNS records will not actually be modified for \(domain.name)")
                     instance.dry_run = dry_run
                 }
             } catch {
-                Log.print("Failed to find zone for domain \(domain.name)")
+                ConsolePrinter.print("Failed to find zone for domain \(domain.name)")
                 continue
             }
             do {
                 try instance.updateAllSubdomains()
             } catch {
-                Log.print("Failed to update domain \(domain.name)")
+                ConsolePrinter.print("Failed to update domain \(domain.name)")
             }
         }
     }
@@ -246,7 +246,7 @@ public class Gandi {
         }.resume()
         
         guard group.wait(timeout: .now() + 3) != .timedOut else {
-            Log.print("Request to Gandi timed out")
+            ConsolePrinter.print("Request to Gandi timed out")
             return InnerResponse.failure(-1)
         }
         
@@ -262,7 +262,7 @@ public class Gandi {
             case .record(let foundRecord):
                 // if we found a valid record, returns first value
                 guard foundRecord.rrset_values.count > 0 else {
-                    Log.print("Found an empty DNS record for subdomain \(subdomainName)")
+                    ConsolePrinter.print("Found an empty DNS record for subdomain \(subdomainName)")
                     throw Gandi.Error.unexpectedResponse
                 }
                 return foundRecord.rrset_values[0]
@@ -280,14 +280,14 @@ public class Gandi {
         let maybePreviousIp = try self.getIp(subdomainName: subdomain.name, type: subdomain.type)
         let newRecord = Record(name: subdomain.name, type: subdomain.type, value: newIp)
         if maybePreviousIp == nil {
-            Log.print("Creating subdomain \(subdomain.name) in \(domain.name) pointing to \(newIp)")
+            ConsolePrinter.print("Creating subdomain \(subdomain.name) in \(domain.name) pointing to \(newIp)")
             let _ = try send(.addRecord(newRecord))
         } else if let previousIp = maybePreviousIp {
             if previousIp != newIp {
-                Log.print("Updating \(subdomain.name).\(domain.name) from \(previousIp) to \(newIp)")
+                ConsolePrinter.print("Updating \(subdomain.name).\(domain.name) from \(previousIp) to \(newIp)")
                 let _ = try send(.updateRecord(newRecord))
             } else {
-                Log.print("Desired address already matches Gandi DNS value for \(subdomain.name).\(domain.name)", .verbose)
+                ConsolePrinter.print("Desired address already matches Gandi DNS value for \(subdomain.name).\(domain.name)", .verbose)
             }
         }
     }
@@ -299,13 +299,13 @@ public class Gandi {
         var foundError = false
 
         for subdomain in domain.subdomains {
-            Log.print("Checking IP for subdomain \(subdomain.name) of type \(subdomain.type.rawValue)", .verbose)
+            ConsolePrinter.print("Checking IP for subdomain \(subdomain.name) of type \(subdomain.type.rawValue)", .verbose)
             // if a desired ip is set use it, otherwise use ip for current machine
             let newIp: String = subdomain.ip != nil ? subdomain.ip! : try IPFetcher.getIP(forType: subdomain.type)
             do {
                 try self.updateIp(subdomain, newIp: newIp)
             } catch {
-                Log.print("Failed to update \(subdomain.type.rawValue) record for subdomain '\(subdomain.name)' with new ip '\(newIp)'")
+                ConsolePrinter.print("Failed to update \(subdomain.type.rawValue) record for subdomain '\(subdomain.name)' with new ip '\(newIp)'")
                 foundError = true
             }
         }
