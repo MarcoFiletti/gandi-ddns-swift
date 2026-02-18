@@ -28,7 +28,9 @@ public class Shell {
                 return nil
             }
         } catch {
-            ConsolePrinter.print("Failed to launch shell command \"\(command)\"")
+            Task {
+                await ConsolePrinter.print("Failed to launch shell command \"\(command)\"")
+            }
             return nil
         }
     }

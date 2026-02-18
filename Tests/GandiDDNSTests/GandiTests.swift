@@ -5,7 +5,7 @@ import Testing
 /// To set the skip worktree flag, in root of package run:
 /// `git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`
 @Test
-func withDetails() throws {
+func withDetails() async throws {
     let subdomain = Gandi.Subdomain(name: "www", type: .A, ip: nil)
 
     if DomainDetails.domainName == "example.com" {
@@ -15,23 +15,32 @@ func withDetails() throws {
 
     let domain = Gandi.Domain(name: DomainDetails.domainName, apiKey: DomainDetails.apiKey, subdomains: [subdomain])
 
-    let g1 = try Gandi(domain: domain)
+    let g1 = try await Gandi(domain: domain)
     g1.dry_run = true
 
-    let x = try g1.getIp(subdomainName: "www", type: .A)
+    let x = try await g1.getIp(subdomainName: "www", type: .A)
     #expect(x != nil, "First request should be valid (if we support IPv4)")
-    let y = try g1.getIp(subdomainName: "www", type: .AAAA)
+    let y = try await g1.getIp(subdomainName: "www", type: .AAAA)
     #expect(y != nil, "Second request should be valid (if we support IPv6)")
-    let z = try g1.getIp(subdomainName: "nothingtoseehere", type: .A)
+    let z = try await g1.getIp(subdomainName: "nothingtoseehere", type: .A)
     #expect(z == nil, "Third request should be nil (subdomain should not exist)")
 
-    try g1.updateAllSubdomains()
+    let result = try await g1.updateAllSubdomains()
+    
+    #expect(result.count == 1)
+    
+    switch result[0].outcome {
+    case .newIp(let ip):
+        #expect(ip.isEmpty == false)
+    case .error(let e):
+        Issue.record(e)
+    }
 }
 
 @Test
-func authFailure() {
+func authFailure() async {
     do {
-        let _ = try Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
+        let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
         #expect(Bool(false), "An exception should be thrown")
     } catch let error as Gandi.Error {
         #expect(error == .forbidden || error == .unauthorized, "Expected forbidden or unauthorized, got \(error)")
@@ -41,9 +50,9 @@ func authFailure() {
 }
 
 @Test
-func domainFailure() {
+func domainFailure() async {
     do {
-        let _ = try Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: DomainDetails.apiKey, subdomains: []))
+        let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: DomainDetails.apiKey, subdomains: []))
         #expect(Bool(false), "An exception should be thrown")
     } catch let error as Gandi.Error {
         #expect(error == .zoneNotFound, "Expected zoneNotFound, got \(error)")

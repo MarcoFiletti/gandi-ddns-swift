@@ -9,8 +9,8 @@ import Testing
 @testable import GandiDDNSLib
 
 @Test
-func iPv4() {
-    guard let ip = IPFetcher.getIPv4() else {
+func iPv4() async {
+    guard let ip = await IPFetcher.getIPv4() else {
         Issue.record("Couldn't get IPv4")
         return
     }

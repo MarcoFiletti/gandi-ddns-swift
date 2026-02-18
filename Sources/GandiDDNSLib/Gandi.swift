@@ -4,26 +4,50 @@ import Foundation
 public class Gandi {
 
     /// Runs the given configuration
-    public static func apply(config: Config, dry_run: Bool = false) {
+    @discardableResult
+    public static func apply(config: Config, dry_run: Bool = false) async -> UpdateResult? {
+        var results: [UpdateResult] = []
+
         for domain in config.domains {
             let instance: Gandi
             do {
-                instance = try Gandi(domain: domain)
-                ConsolePrinter.print("\nRunning: \(domain.name)", .verbose)
+                instance = try await Gandi(domain: domain)
+                instance.consolePrint("\nRunning: \(domain.name)", .verbose)
                 if dry_run {
-                    ConsolePrinter.print("Note: dry run, DNS records will not actually be modified for \(domain.name)")
+                    instance.consolePrint("Note: dry run, DNS records will not actually be modified for \(domain.name)")
                     instance.dry_run = dry_run
                 }
             } catch {
-                ConsolePrinter.print("Failed to find zone for domain \(domain.name)")
+                Task {
+                    await ConsolePrinter.print("Failed to find zone for domain \(domain.name)")
+                }
+                results.append(UpdateResult(
+                    domain: domain,
+                    domainOutcome: .zoneNotFound,
+                    outcomePerSubdomain: [],
+                    dryRun: dry_run)
+                )
                 continue
             }
             do {
-                try instance.updateAllSubdomains()
+                let oucomePerSubdomain = try await instance.updateAllSubdomains()
+                results.append(UpdateResult(
+                    domain: domain,
+                    domainOutcome: .sucess,
+                    outcomePerSubdomain: oucomePerSubdomain,
+                    dryRun: dry_run)
+                )
             } catch {
-                ConsolePrinter.print("Failed to update domain \(domain.name)")
+                results.append(UpdateResult(
+                    domain: domain,
+                    domainOutcome: .error(error.localizedDescription),
+                    outcomePerSubdomain: [],
+                    dryRun: dry_run)
+                )
+                instance.consolePrint("Failed to update domain \(domain.name)")
             }
         }
+        return nil
     }
 
     /// Set this to true if we don't want to send any POST or PUT requests to Gandi
@@ -45,7 +69,7 @@ public class Gandi {
         case subError
     }
 
-    public struct Domain: Codable {
+    public struct Domain: Codable, Sendable {
         let name: String
         let apiKey: String
         let subdomains: [Gandi.Subdomain]
@@ -57,7 +81,7 @@ public class Gandi {
         }
     }
 
-    public struct Subdomain: Codable {
+    public struct Subdomain: Codable, Sendable {
         let name: String
         let type: RecordType
         let ip: String?
@@ -77,12 +101,13 @@ public class Gandi {
     public var zone: Zone?
     
     /// Throws zoneNotFound if zone fetch failed (e.g. wrong key).
-    public init(domain: Gandi.Domain) throws {
+    @concurrent
+    public init(domain: Gandi.Domain) async throws {
         self.domain = domain
         self.baseUrl = "https://dns.api.gandi.net/api/v5/domains/" + domain.name
         
         do {
-            let resp = try send(.getZone)
+            let resp = try await send(.getZone)
             if case let .zone(zoneResp) = resp {
                 self.zone = zoneResp
             } else {
@@ -150,7 +175,8 @@ public class Gandi {
      - parameter req: The type of request we want to submit
      - returns Gandi's response
      */
-    public func send(_ req: Request) throws -> Response {
+    @concurrent
+    public func send(_ req: Request) async throws -> Response {
         let url: URL
         
         switch req {
@@ -200,7 +226,7 @@ public class Gandi {
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         }
         
-        switch processRequest(urlRequest) {
+        switch await processRequest(urlRequest) {
         case .found(let response):
             return response
         case .failure(let code):
@@ -225,56 +251,48 @@ public class Gandi {
         case found(Response)
         // Success that does not involve returning data
         case success
-        // An error with http error code (-1 for timeout, -2 is programmer error)
+        // An error with http error code (-1 for network error, -2 is programmer error)
         case failure(Int)
     }
     
     /// Wraps url request to make it synchronous
-    private func processRequest(_ urlRequest: URLRequest) -> InnerResponse {
-        
-        var retVal = InnerResponse.failure(-2)
-        
-        let group = DispatchGroup()
-        group.enter()
-        URLSession.shared.dataTask(with: urlRequest) {
-            data, response, _ in
+    private func processRequest(_ urlRequest: URLRequest) async -> InnerResponse {
+        do {
+            var retVal = InnerResponse.failure(-2)
             
-            if let data = data {
-                let decoder = JSONDecoder()
-                
-                if let z = try? decoder.decode(Zone.self, from: data) {
-                    retVal = InnerResponse.found(Response.zone(z))
-                } else if let r = try? decoder.decode(Record.self, from: data) {
-                    retVal = InnerResponse.found(Response.record(r))
-                } else if let r = response as? HTTPURLResponse, r.statusCode >= 200, r.statusCode < 300 {
-                    // accept good status codes
-                    retVal = .success
-                } else if let r = response as? HTTPURLResponse {
-                    retVal = .failure(r.statusCode)
-                }
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            let decoder = JSONDecoder()
+            
+            if let z = try? decoder.decode(Zone.self, from: data) {
+                retVal = InnerResponse.found(Response.zone(z))
+            } else if let r = try? decoder.decode(Record.self, from: data) {
+                retVal = InnerResponse.found(Response.record(r))
+            } else if let r = response as? HTTPURLResponse, r.statusCode >= 200, r.statusCode < 300 {
+                // accept good status codes
+                retVal = .success
+            } else if let r = response as? HTTPURLResponse {
+                retVal = .failure(r.statusCode)
             }
-            
-            group.leave()
-        }.resume()
-        
-        guard group.wait(timeout: .now() + 3) != .timedOut else {
-            ConsolePrinter.print("Request to Gandi timed out")
+
+            return retVal
+        } catch {
+            consolePrint(error.localizedDescription)
             return InnerResponse.failure(-1)
         }
-        
-        return retVal
     }
     
     /// Returns ip, nil if subdomain was not found.
     /// - throws: `Gandi.Error.unexpectedResponse` if an error different than not found was returned.
-    public func getIp(subdomainName: String, type: RecordType) throws -> String? {
+    @concurrent
+    public func getIp(subdomainName: String, type: RecordType) async throws -> String? {
         do {
-            let resp = try send(.getRecord(subdomainName, type))
+            let resp = try await send(.getRecord(subdomainName, type))
             switch resp {
             case .record(let foundRecord):
                 // if we found a valid record, returns first value
                 guard foundRecord.rrset_values.count > 0 else {
-                    ConsolePrinter.print("Found an empty DNS record for subdomain \(subdomainName)")
+                    consolePrint("Found an empty DNS record for subdomain \(subdomainName)")
                     throw Gandi.Error.unexpectedResponse
                 }
                 return foundRecord.rrset_values[0]
@@ -288,18 +306,19 @@ public class Gandi {
     
     /// Updates the ip for the given record, if different. If the record doesn't exists, creates it.
     /// - throws: `Gandi.Error.unexpectedResponse` if an unexpected error took place (e.g. timeout)
-    public func updateIp(_ subdomain: Subdomain, newIp: String) throws {
-        let maybePreviousIp = try self.getIp(subdomainName: subdomain.name, type: subdomain.type)
+    @concurrent
+    public func updateIp(_ subdomain: Subdomain, newIp: String) async throws {
+        let maybePreviousIp = try await self.getIp(subdomainName: subdomain.name, type: subdomain.type)
         let newRecord = Record(name: subdomain.name, type: subdomain.type, value: newIp)
         if maybePreviousIp == nil {
-            ConsolePrinter.print("Creating subdomain \(subdomain.name) in \(domain.name) pointing to \(newIp)")
-            let _ = try send(.addRecord(newRecord))
+            consolePrint("Creating subdomain \(subdomain.name) in \(domain.name) pointing to \(newIp)")
+            let _ = try await send(.addRecord(newRecord))
         } else if let previousIp = maybePreviousIp {
             if previousIp != newIp {
-                ConsolePrinter.print("Updating \(subdomain.name).\(domain.name) from \(previousIp) to \(newIp)")
-                let _ = try send(.updateRecord(newRecord))
+                consolePrint("Updating \(subdomain.name).\(domain.name) from \(previousIp) to \(newIp)")
+                let _ = try await send(.updateRecord(newRecord))
             } else {
-                ConsolePrinter.print("Desired address already matches Gandi DNS value for \(subdomain.name).\(domain.name)", .verbose)
+                consolePrint("Desired address already matches Gandi DNS value for \(subdomain.name).\(domain.name)", .verbose)
             }
         }
     }
@@ -307,22 +326,35 @@ public class Gandi {
     /// Updates all stored subdomains to use the given ip (if any)
     /// - throws: Gandi.Error.subError if one or more subdomains failed to update (still tries to update others)
     /// - throws: IPFetcher.Error.fetchError if the IP for current machine could not be fetched (terminates operation)
-    public func updateAllSubdomains() throws {
+    @concurrent
+    public func updateAllSubdomains() async throws -> [(subdomain: Gandi.Subdomain, outcome: UpdateResult.SubdomainOutcome)] {
         var foundError = false
-
+        
+        var outcomePerSubdomain: [(Gandi.Subdomain, UpdateResult.SubdomainOutcome)] = []
         for subdomain in domain.subdomains {
-            ConsolePrinter.print("Checking IP for subdomain \(subdomain.name) of type \(subdomain.type.rawValue)", .verbose)
+            consolePrint("Checking IP for subdomain \(subdomain.name) of type \(subdomain.type.rawValue)", .verbose)
             // if a desired ip is set use it, otherwise use ip for current machine
-            let newIp: String = subdomain.ip != nil ? subdomain.ip! : try IPFetcher.getIP(forType: subdomain.type)
+            let newIp: String = subdomain.ip != nil ? subdomain.ip! : try await IPFetcher.getIP(forType: subdomain.type)
             do {
-                try self.updateIp(subdomain, newIp: newIp)
+                try await self.updateIp(subdomain, newIp: newIp)
+                
+                outcomePerSubdomain.append((subdomain, .newIp(newIp)))
             } catch {
-                ConsolePrinter.print("Failed to update \(subdomain.type.rawValue) record for subdomain '\(subdomain.name)' with new ip '\(newIp)'")
+                consolePrint("Failed to update \(subdomain.type.rawValue) record for subdomain '\(subdomain.name)' with new ip '\(newIp)'")
                 foundError = true
+                
+                outcomePerSubdomain.append((subdomain, .error(error)))
             }
         }
 
         if foundError { throw Gandi.Error.subError }
+        return outcomePerSubdomain
+    }
+    
+    private func consolePrint(_ message: String, _ messageLevel: LogLevel = .normal) {
+        Task {
+            await ConsolePrinter.print(message, messageLevel)
+        }
     }
 }
 

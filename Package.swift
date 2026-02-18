@@ -1,10 +1,16 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "GandiDDNS",
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+    ],
     products: [
         .library(name: "GandiDDNSLib", targets: ["GandiDDNSLib"]),
         .executable(name: "GandiDDNS", targets: ["GandiDDNS"]),
@@ -19,13 +25,16 @@ let package = Package(
         .target(
             name: "GandiDDNSLib"
         ),
-        .target(name: "CommandLineParser"),
+        .target(
+            name: "CommandLineParser"
+        ),
         .executableTarget(
             name: "GandiDDNS",
             dependencies: [
-                "GandiDDNSLib", 
+                "GandiDDNSLib",
                 "CommandLineParser"
-            ]),
+            ]
+        ),
         .testTarget(
             name: "GandiDDNSTests",
             dependencies: ["GandiDDNSLib"]),

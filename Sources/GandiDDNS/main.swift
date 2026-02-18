@@ -31,7 +31,8 @@ struct Options: CommandLineOptions {
 
 /// Asks config from user and saves it, then quits.
 /// If this is not an interactive terminal, exits with error 1.
-func askForConfigAndQuit(_ reader: ConfigReader) {
+///
+func askForConfigAndQuit(_ reader: ConfigReader) async {
     guard ProcessInfo.processInfo.environment["TERM"] != nil else {
         print("This is not an interactive terminal, qutting.")
         exit(1)
@@ -56,7 +57,7 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
     }
 
     do {
-        try reader.saveConfig(withDomain: domainName, key: key)
+        try await reader.saveConfig(withDomain: domainName, key: key)
         print("""
               Data saved into \(reader.filename).
               Optionally edit the file and run again to apply settings to Gandi.
@@ -78,7 +79,7 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
 }
 
 /// Reads config from file, or asks user for it and saves it, then quits
-func readConfigOrQuit(_ reader: ConfigReader) -> Config {
+func readConfigOrQuit(_ reader: ConfigReader) async -> Config {
     // Returning a wrapped nullable maybeConfig since this step checks for corruption exceptions
     do {
         let maybeConfig = try reader.read()
@@ -87,7 +88,7 @@ func readConfigOrQuit(_ reader: ConfigReader) -> Config {
         if let config = maybeConfig {
             return config
         } else {
-            askForConfigAndQuit(reader)
+            await askForConfigAndQuit(reader)
             fatalError("We should never get here, asking for config should always quit")
         }
     } catch {
@@ -137,6 +138,6 @@ do {
 }
 
 let reader = ConfigReader(specificFile: optionalFile)
-let config = readConfigOrQuit(reader)
+let config = await readConfigOrQuit(reader)
 
-Gandi.apply(config: config, dry_run: dry_run)
+await Gandi.apply(config: config, dry_run: dry_run)

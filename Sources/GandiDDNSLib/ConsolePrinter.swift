@@ -1,4 +1,5 @@
 /// Simple logger than prints to console depending on log level
+@MainActor
 public class ConsolePrinter {
 
     /// Everything which is at most this level of verbosity will be outputted.
@@ -16,7 +17,7 @@ public class ConsolePrinter {
 }
 
 /// Level of verbosity of a message (in ascending order)
-public enum LogLevel: Int {
+public enum LogLevel: Int, Sendable {
     /// Prints nothing (return codes different than 0 can be used to detect errors)
     case silent
     /// Only prints when IPs are updated
