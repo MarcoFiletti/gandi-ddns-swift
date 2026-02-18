@@ -14,13 +14,24 @@ public struct UpdateResult: Sendable {
     let outcomePerSubdomain: [(Gandi.Subdomain, SubdomainOutcome)]
     let dryRun: Bool
     
+    public init(
+        domain: Gandi.Domain,
+        domainOutcome: DomainOutcome,
+        outcomePerSubdomain: [(subdomain: Gandi.Subdomain, outcome: SubdomainOutcome)],
+        dryRun: Bool
+    ) {
+        self.domain = domain
+        self.domainOutcome = domainOutcome
+        self.outcomePerSubdomain = outcomePerSubdomain
+        self.dryRun = dryRun
+    }
 }
 
 public extension UpdateResult {
     
     enum DomainOutcome: Sendable {
         case dryRun
-        case sucess
+        case success
         case zoneNotFound
         case error(String)
     }

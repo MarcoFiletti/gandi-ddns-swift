@@ -5,7 +5,7 @@ public class Gandi {
 
     /// Runs the given configuration
     @discardableResult
-    public static func apply(config: Config, dry_run: Bool = false) async -> UpdateResult? {
+    public static func apply(config: Config, dry_run: Bool = false) async -> [UpdateResult] {
         var results: [UpdateResult] = []
 
         for domain in config.domains {
@@ -33,7 +33,7 @@ public class Gandi {
                 let oucomePerSubdomain = try await instance.updateAllSubdomains()
                 results.append(UpdateResult(
                     domain: domain,
-                    domainOutcome: .sucess,
+                    domainOutcome: .success,
                     outcomePerSubdomain: oucomePerSubdomain,
                     dryRun: dry_run)
                 )
@@ -47,7 +47,8 @@ public class Gandi {
                 instance.consolePrint("Failed to update domain \(domain.name)")
             }
         }
-        return nil
+        
+        return results
     }
 
     /// Set this to true if we don't want to send any POST or PUT requests to Gandi
