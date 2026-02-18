@@ -49,12 +49,24 @@ public class Gandi {
         let name: String
         let apiKey: String
         let subdomains: [Gandi.Subdomain]
+        
+        public init(name: String, apiKey: String, subdomains: [Gandi.Subdomain]) {
+            self.name = name
+            self.apiKey = apiKey
+            self.subdomains = subdomains
+        }
     }
 
     public struct Subdomain: Codable {
         let name: String
         let type: RecordType
         let ip: String?
+        
+        public init(name: String, type: RecordType, ip: String?) {
+            self.name = name
+            self.type = type
+            self.ip = ip
+        }
     }
 
     public let domain: Gandi.Domain

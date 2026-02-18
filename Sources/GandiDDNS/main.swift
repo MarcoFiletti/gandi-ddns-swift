@@ -33,7 +33,7 @@ struct Options: CommandLineOptions {
 /// If this is not an interactive terminal, exits with error 1.
 func askForConfigAndQuit(_ reader: ConfigReader) {
     guard ProcessInfo.processInfo.environment["TERM"] != nil else {
-        Log.print("No config present and this is not an interactive terminal, qutting.")
+        print("This is not an interactive terminal, qutting.")
         exit(1)
     }
 
@@ -80,18 +80,27 @@ func askForConfigAndQuit(_ reader: ConfigReader) {
 /// Reads config from file, or asks user for it and saves it, then quits
 func readConfigOrQuit(_ reader: ConfigReader) -> Config {
     // Returning a wrapped nullable maybeConfig since this step checks for corruption exceptions
-    guard let config = try? reader.read() else {
+    do {
+        let maybeConfig = try reader.read()
+        
+        // This checks if the file exists or not
+        if let config = maybeConfig {
+            return config
+        } else {
+            askForConfigAndQuit(reader)
+            fatalError("We should never get here, asking for config should always quit")
+        }
+    } catch {
         let filePath: String
         if let url = reader.url {
             filePath = "at \(url.path)"
         } else {
             filePath = ""
         }
-        Log.print("Config file \(filePath) is not properly formatted; quitting.")
+
+        print("Config file \(filePath) is not properly formatted; quitting.")
         exit(50)
     }
-    
-    return config
 }
 
 var dry_run = false
@@ -103,10 +112,10 @@ do {
         
         // set verbose
         if options.contains(.verbose) {
-            Log.level = .verbose
-            Log.print("Verbose mode on", .verbose)
+            ConsolePrinter.level = .verbose
+            ConsolePrinter.print("Verbose mode on", .verbose)
         } else if options.contains(.silent) {
-            Log.level = .silent
+            ConsolePrinter.level = .silent
         }
 
         // set dry run
@@ -119,11 +128,11 @@ do {
             } else {
                 optionalFile = fname + ".json"
             }
-            Log.print("Reading config from \(optionalFile!)")
+            ConsolePrinter.print("Reading config from \(optionalFile!)")
         }
     }
 } catch {
-    Log.print(usage)
+    ConsolePrinter.print(usage)
     exit(1)
 }
 

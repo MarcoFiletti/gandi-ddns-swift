@@ -7,6 +7,10 @@ public enum RecordType: String, Codable {
 
 public struct Config: Codable {
     let domains: [Gandi.Domain]
+    
+    public init(domains: [Gandi.Domain]) {
+        self.domains = domains
+    }
 }
 
 public class ConfigReader {
