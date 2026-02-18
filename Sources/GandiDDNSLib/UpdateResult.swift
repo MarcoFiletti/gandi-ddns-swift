@@ -15,8 +15,8 @@ public struct UpdateResult: Sendable, CustomStringConvertible {
     let dryRun: Bool
     
     public var description: String {
-        let domainPart = "\(domain.name):\(domainOutcome.description)"
-        let dryRunPart = dryRun ? "true" : "false"
+        let domainPart = "\(domain.name),outcome:\(domainOutcome.description)"
+        let dryRunPart = "dryRun:" + (dryRun ? "true" : "false")
         let subdomainParts = outcomePerSubdomain.map { sub, outcome in
             "\(sub.name):\(sub.type.rawValue):\(sub.ip ?? ""):\(outcome.description)"
         }

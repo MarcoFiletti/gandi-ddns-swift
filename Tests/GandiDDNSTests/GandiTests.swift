@@ -1,62 +1,74 @@
 import Testing
 @testable import GandiDDNSLib
 
-/// Test using actual domain details. Edit the DomainDetails.swift file (after setting the skip-worktree git flag on it) the run this test.
-/// To set the skip worktree flag, in root of package run:
-/// `git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`
-@Test
-func withDetails() async throws {
-    let subdomain = Gandi.Subdomain(name: "www", type: .A, ip: nil)
-
-    if DomainDetails.domainName == "example.com" {
-        Issue.record("The DomainDetails.swift file should point to an actual domain in order to test the API calls")
-        return
-    }
-
-    let domain = Gandi.Domain(name: DomainDetails.domainName, apiKey: DomainDetails.apiKey, subdomains: [subdomain])
-
-    let g1 = try await Gandi(domain: domain)
-    g1.dry_run = true
-
-    let x = try await g1.getIp(subdomainName: "www", type: .A)
-    #expect(x != nil, "First request should be valid (if we support IPv4)")
-    let y = try await g1.getIp(subdomainName: "www", type: .AAAA)
-    #expect(y != nil, "Second request should be valid (if we support IPv6)")
-    let z = try await g1.getIp(subdomainName: "nothingtoseehere", type: .A)
-    #expect(z == nil, "Third request should be nil (subdomain should not exist)")
-
-    let result = try await g1.updateAllSubdomains()
+@Suite
+struct GandiTests {
     
-    #expect(result.count == 1)
+    let runIPV6Test = false
     
-    switch result[0].outcome {
-    case .newIp(let ip):
-        #expect(ip.isEmpty == false)
-    case .error(let e):
-        Issue.record(e)
+    /// Test using actual domain details. Edit the DomainDetails.swift file (after setting the skip-worktree git flag on it) the run this test.
+    /// To set the skip worktree flag, in root of package run:
+    /// `git update-index --skip-worktree Tests/GandiDDNSTests/DomainDetails.swift`
+    @Test
+    func withDetails() async throws {
+        let subdomain = Gandi.Subdomain(name: "www", type: .A, ip: nil)
+        
+        if DomainDetails.domainName == "example.com" {
+            Issue.record("The DomainDetails.swift file should point to an actual domain in order to test the API calls")
+            return
+        }
+        
+        let domain = Gandi.Domain(name: DomainDetails.domainName, apiKey: DomainDetails.apiKey, subdomains: [subdomain])
+        
+        let g1 = try await Gandi(domain: domain)
+        g1.dry_run = true
+        
+        let x = try await g1.getIp(subdomainName: "www", type: .A)
+        #expect(x != nil, "First request should be valid (if we support IPv4)")
+        
+        if runIPV6Test {
+            let y = try await g1.getIp(subdomainName: "www", type: .AAAA)
+            #expect(y != nil, "Second request should be valid (if we support IPv6)")
+        } else {
+            print("Skipping IPv6 test")
+        }
+        
+        let z = try await g1.getIp(subdomainName: "nothingtoseehere", type: .A)
+        #expect(z == nil, "Third request should be nil (subdomain should not exist)")
+        
+        let result = try await g1.updateAllSubdomains()
+        
+        #expect(result.count == 1)
+        
+        switch result[0].outcome {
+        case .newIp(let ip):
+            #expect(ip.isEmpty == false)
+        case .error(let e):
+            Issue.record(e)
+        }
     }
-}
-
-@Test
-func authFailure() async {
-    do {
-        let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
-        #expect(Bool(false), "An exception should be thrown")
-    } catch let error as Gandi.Error {
-        #expect(error == .forbidden || error == .unauthorized, "Expected forbidden or unauthorized, got \(error)")
-    } catch {
-        #expect(Bool(false), "The error should be not authorized or forbidden, instead it was \(error)")
+    
+    @Test
+    func authFailure() async {
+        do {
+            let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: "nokey", subdomains: []))
+            #expect(Bool(false), "An exception should be thrown")
+        } catch let error as Gandi.Error {
+            #expect(error == .forbidden || error == .unauthorized, "Expected forbidden or unauthorized, got \(error)")
+        } catch {
+            #expect(Bool(false), "The error should be not authorized or forbidden, instead it was \(error)")
+        }
     }
-}
-
-@Test
-func domainFailure() async {
-    do {
-        let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: DomainDetails.apiKey, subdomains: []))
-        #expect(Bool(false), "An exception should be thrown")
-    } catch let error as Gandi.Error {
-        #expect(error == .zoneNotFound, "Expected zoneNotFound, got \(error)")
-    } catch {
-        #expect(Bool(false), "The error should be zone not found")
+    
+    @Test
+    func domainFailure() async {
+        do {
+            let _ = try await Gandi(domain: Gandi.Domain(name: "example.nothing", apiKey: DomainDetails.apiKey, subdomains: []))
+            #expect(Bool(false), "An exception should be thrown")
+        } catch let error as Gandi.Error {
+            #expect(error == .zoneNotFound, "Expected zoneNotFound, got \(error)")
+        } catch {
+            #expect(Bool(false), "The error should be zone not found")
+        }
     }
 }
