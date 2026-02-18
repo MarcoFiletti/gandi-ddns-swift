@@ -9,10 +9,10 @@ import Foundation
 
 public struct UpdateResult: Sendable, CustomStringConvertible {
 
-    let domain: Gandi.Domain
-    let domainOutcome: DomainOutcome
-    let outcomePerSubdomain: [(Gandi.Subdomain, SubdomainOutcome)]
-    let dryRun: Bool
+    public let domain: Gandi.Domain
+    public let domainOutcome: DomainOutcome
+    public let outcomePerSubdomain: [(Gandi.Subdomain, SubdomainOutcome)]
+    public let dryRun: Bool
     
     public var description: String {
         let domainPart = "\(domain.name),outcome:\(domainOutcome.description)"

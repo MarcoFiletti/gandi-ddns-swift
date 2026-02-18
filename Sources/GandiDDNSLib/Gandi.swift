@@ -71,9 +71,9 @@ public class Gandi {
     }
 
     public struct Domain: Codable, Sendable {
-        let name: String
-        let apiKey: String
-        let subdomains: [Gandi.Subdomain]
+        public let name: String
+        public let apiKey: String
+        public let subdomains: [Gandi.Subdomain]
         
         public init(name: String, apiKey: String, subdomains: [Gandi.Subdomain]) {
             self.name = name
@@ -83,9 +83,9 @@ public class Gandi {
     }
 
     public struct Subdomain: Codable, Sendable {
-        let name: String
-        let type: RecordType
-        let ip: String?
+        public let name: String
+        public let type: RecordType
+        public let ip: String?
         
         public init(name: String, type: RecordType, ip: String?) {
             self.name = name
