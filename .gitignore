@@ -1,6 +1,7 @@
 # Ignoring xcode project,
-# since it can regenerated
+# since it can be regenerated
 GandiDDNS.xcodeproj
+.swiftpm
 
 # Ignoring all (config) json files
 *.json

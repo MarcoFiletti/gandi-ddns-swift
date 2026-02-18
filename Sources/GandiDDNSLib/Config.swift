@@ -1,14 +1,20 @@
 import Foundation
 
-public enum RecordType: String, Codable {
+public enum RecordType: String, Codable, Sendable {
     case A
     case AAAA
 }
 
-public struct Config: Codable {
+@available(macOS 10.15.0, *)
+public struct Config: Codable, Sendable {
     let domains: [Gandi.Domain]
+    
+    public init(domains: [Gandi.Domain]) {
+        self.domains = domains
+    }
 }
 
+@available(macOS 10.15.0, *)
 public class ConfigReader {
 
     /// Data will be read and saved from here
@@ -46,7 +52,7 @@ public class ConfigReader {
 
     /// Saves inputted config to file.
     /// - throws Gandi.Error.zoneNotFound if there is something wrong with the domain (e.g. wrong key)
-    public func saveConfig(withDomain: String, key: String) throws {
+    public func saveConfig(withDomain: String, key: String) async throws {
         let s1 = Gandi.Subdomain(name: "www", type: .A, ip: nil)
         let s2 = Gandi.Subdomain(name: "www", type: .AAAA, ip: nil)
         let s3 = Gandi.Subdomain(name: "@", type: .A, ip: nil)
@@ -55,7 +61,7 @@ public class ConfigReader {
         let config = Config(domains: [d1])
 
         // Test configuration before encoding it
-        let _ = try Gandi(domain: d1)
+        let _ = try await Gandi(domain: d1)
 
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

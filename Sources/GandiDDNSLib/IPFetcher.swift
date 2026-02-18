@@ -7,12 +7,15 @@
 
 import Foundation
 
+@available(macOS 10.15.0, *)
 public class IPFetcher {
 
     /// IPv4 is cached here to prevent sending too many requests
+    @MainActor
     static var lastIPv4: String?
 
     /// IPv6 is cached here to prevent sending too many requests
+    @MainActor
     static var lastIPv6: String?
 
     public enum Error: Swift.Error {
@@ -22,53 +25,62 @@ public class IPFetcher {
     /// Helper function to get the ip depending on record type.
     /// Uses cached values if present to avoid sending too many requests.
     /// - throws: IPFetcher.Error.fetchFail if the address could not be retrieved
-    public static func getIP(forType: RecordType) throws -> String {
+    @concurrent
+    public static func getIP(forType: RecordType) async throws -> String {
+        let maybeIPv4 = await IPFetcher.lastIPv4
+        let maybeIPv6 = await IPFetcher.lastIPv6
+        
         let maybeAddress: String?
         switch forType {
         case .A:
-            maybeAddress = lastIPv4 != nil ? lastIPv4! : getIPv4()
+            if let maybeIPv4 {
+                maybeAddress = maybeIPv4
+            } else {
+                maybeAddress = await getIPv4()
+            }
         case .AAAA:
-            maybeAddress = lastIPv6 != nil ? lastIPv6! : getIPv6()
+            if let maybeIPv6 {
+                maybeAddress = maybeIPv6
+            } else {
+                maybeAddress = getIPv6()
+            }
         }
 
         guard let foundAddress = maybeAddress else {
             throw IPFetcher.Error.fetchFail
         }
 
-        Log.print("IP address of current machine for record type \(forType.rawValue) is \(foundAddress)", .verbose)
+        consolePrint("IP address of current machine for record type \(forType.rawValue) is \(foundAddress)", .verbose)
         return foundAddress
     }
     
     /// Returns a string containing IPv4 if successful, otherwise nil
-    public static func getIPv4() -> String? {
+    @concurrent
+    public static func getIPv4() async -> String? {
         
         let ses = URLSession.shared
         guard let ipUrl = URL(string: "https://api.ipify.org") else {
-            Log.print("Failed to create ip url")
+            consolePrint("Failed to create ip url")
             return nil
         }
         
-        let group = DispatchGroup()
         var ipString: String? = nil
         
-        group.enter()
-        ses.dataTask(with: ipUrl) {
-            data, response, error in
+        do {
+            let (data, _) = try await ses.data(from: ipUrl)
             
-            if let data = data {
-                ipString = String(data: data, encoding: .utf8)
+            ipString = String(data: data, encoding: .utf8)
+            
+            await MainActor.run {
+                IPFetcher.lastIPv4 = ipString
             }
             
-            group.leave()
-            }.resume()
-        
-        guard group.wait(timeout: DispatchTime.now() + 3.0) != .timedOut else {
-            Log.print("Ipify request failed, couldn't get IPv4")
+            return ipString
+
+        } catch {
+            consolePrint(error.localizedDescription)
             return nil
         }
-        
-        IPFetcher.lastIPv4 = ipString
-        return ipString
     }
     
     /// Returns IPv6 using shell
@@ -84,18 +96,28 @@ public class IPFetcher {
         #endif
         
         guard let shellRet = Shell.run(command) else {
-            Log.print("Shell command to obtain IPv6 failed")
+            consolePrint("Shell command to obtain IPv6 failed")
             return nil
         }
         
         let trimmed = shellRet.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.count > 12 {
-            IPFetcher.lastIPv6 = trimmed
+            Task {
+                await MainActor.run {
+                    IPFetcher.lastIPv6 = trimmed
+                }
+            }
             return trimmed
         } else {
-            Log.print("Shell command to obtained IPv6 returned an unexpected result")
+            consolePrint("Shell command to obtained IPv6 returned an unexpected result")
             return nil
         }
 
+    }
+    
+    private static func consolePrint(_ message: String, _ messageLevel: LogLevel = .normal) {
+        Task {
+            await ConsolePrinter.print(message, messageLevel)
+        }
     }
 }
