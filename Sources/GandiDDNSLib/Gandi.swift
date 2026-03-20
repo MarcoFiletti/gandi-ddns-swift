@@ -55,7 +55,7 @@ public class Gandi {
     /// Useful to test with high verbosity without changing DNS records
     public var dry_run = false
     
-    public enum Error: Swift.Error {
+    public enum Error: LocalizedError {
         /// An unexpected error occurred
         case unexpectedResponse
         /// This indicates that API Key is wrong
@@ -68,6 +68,23 @@ public class Gandi {
         case notFound
         /// One or more subDomains failed to update
         case subError
+        
+        public var errorDescription: String? {
+            switch self {
+            case .unexpectedResponse:
+                "An unexpected error occurred"
+            case .unauthorized:
+                "API Key is wrong"
+            case .forbidden:
+                "Cannot access the given resource"
+            case .zoneNotFound:
+                "Domain was wrong"
+            case .notFound:
+                "Something was not found"
+            case .subError:
+                "One or more subdomains failed to update"
+            }
+        }
     }
 
     public struct Domain: Codable, Sendable {
@@ -195,7 +212,7 @@ public class Gandi {
         }
         
         var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(domain.apiKey, forHTTPHeaderField: "X-Api-Key")
+        urlRequest.addValue("Bearer \(domain.apiKey)", forHTTPHeaderField: "Authorization")
         
         // set additional request parameters
         switch req {
